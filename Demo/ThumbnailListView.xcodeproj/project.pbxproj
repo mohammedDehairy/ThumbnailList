@@ -1,0 +1,453 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6EA4547B1630A87900505CAE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EA4547A1630A87900505CAE /* UIKit.framework */; };
+		6EA4547D1630A87900505CAE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EA4547C1630A87900505CAE /* Foundation.framework */; };
+		6EA4547F1630A87900505CAE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EA4547E1630A87900505CAE /* CoreGraphics.framework */; };
+		6EA454851630A87900505CAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6EA454831630A87900505CAE /* InfoPlist.strings */; };
+		6EA454871630A87900505CAE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA454861630A87900505CAE /* main.m */; };
+		6EA4548B1630A87900505CAE /* ThumbnailListAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4548A1630A87900505CAE /* ThumbnailListAppDelegate.m */; };
+		6EA4548D1630A87900505CAE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA4548C1630A87900505CAE /* Default.png */; };
+		6EA4548F1630A87900505CAE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA4548E1630A87900505CAE /* Default@2x.png */; };
+		6EA454911630A87900505CAE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA454901630A87900505CAE /* Default-568h@2x.png */; };
+		6EA454941630A87900505CAE /* ThumbnailListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA454931630A87900505CAE /* ThumbnailListViewController.m */; };
+		6EA454971630A87900505CAE /* ThumbnailListViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EA454951630A87900505CAE /* ThumbnailListViewController_iPhone.xib */; };
+		6EA4549A1630A87900505CAE /* ThumbnailListViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EA454981630A87900505CAE /* ThumbnailListViewController_iPad.xib */; };
+		6EA454A51630A8AC00505CAE /* ThumbnailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA454A11630A8AC00505CAE /* ThumbnailCell.m */; };
+		6EA454A61630A8AC00505CAE /* ThumbnailList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA454A31630A8AC00505CAE /* ThumbnailList.m */; };
+		6ED441701635511600D42534 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED441671635511600D42534 /* EGOCache.m */; };
+		6ED441711635511600D42534 /* EGOImageLoadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4416A1635511600D42534 /* EGOImageLoadConnection.m */; };
+		6ED441721635511600D42534 /* EGOImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4416C1635511600D42534 /* EGOImageLoader.m */; };
+		6ED441731635511600D42534 /* EGOImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4416F1635511600D42534 /* EGOImageView.m */; };
+		6ED441791635536400D42534 /* EGOImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED441781635536400D42534 /* EGOImageButton.m */; };
+		6EEF7C821630B14500C0C0BE /* alwatan7.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C7A1630B14500C0C0BE /* alwatan7.png */; };
+		6EEF7C831630B14500C0C0BE /* alwatan6.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C7B1630B14500C0C0BE /* alwatan6.png */; };
+		6EEF7C841630B14500C0C0BE /* alwatan5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C7C1630B14500C0C0BE /* alwatan5.png */; };
+		6EEF7C851630B14500C0C0BE /* alwatan4.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C7D1630B14500C0C0BE /* alwatan4.png */; };
+		6EEF7C861630B14500C0C0BE /* alwatan3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C7E1630B14500C0C0BE /* alwatan3.png */; };
+		6EEF7C871630B14500C0C0BE /* alwatan0.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C7F1630B14500C0C0BE /* alwatan0.png */; };
+		6EEF7C881630B14500C0C0BE /* alwatan2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C801630B14500C0C0BE /* alwatan2.png */; };
+		6EEF7C891630B14500C0C0BE /* alwatan1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C811630B14500C0C0BE /* alwatan1.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6EA454761630A87900505CAE /* ThumbnailListView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThumbnailListView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EA4547A1630A87900505CAE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6EA4547C1630A87900505CAE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6EA4547E1630A87900505CAE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6EA454821630A87900505CAE /* ThumbnailListView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ThumbnailListView-Info.plist"; sourceTree = "<group>"; };
+		6EA454841630A87900505CAE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6EA454861630A87900505CAE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6EA454881630A87900505CAE /* ThumbnailListView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ThumbnailListView-Prefix.pch"; sourceTree = "<group>"; };
+		6EA454891630A87900505CAE /* ThumbnailListAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailListAppDelegate.h; sourceTree = "<group>"; };
+		6EA4548A1630A87900505CAE /* ThumbnailListAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThumbnailListAppDelegate.m; sourceTree = "<group>"; };
+		6EA4548C1630A87900505CAE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		6EA4548E1630A87900505CAE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		6EA454901630A87900505CAE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6EA454921630A87900505CAE /* ThumbnailListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThumbnailListViewController.h; sourceTree = "<group>"; };
+		6EA454931630A87900505CAE /* ThumbnailListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThumbnailListViewController.m; sourceTree = "<group>"; };
+		6EA454961630A87900505CAE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ThumbnailListViewController_iPhone.xib; sourceTree = "<group>"; };
+		6EA454991630A87900505CAE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ThumbnailListViewController_iPad.xib; sourceTree = "<group>"; };
+		6EA454A01630A8AC00505CAE /* ThumbnailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailCell.h; sourceTree = "<group>"; };
+		6EA454A11630A8AC00505CAE /* ThumbnailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailCell.m; sourceTree = "<group>"; };
+		6EA454A21630A8AC00505CAE /* ThumbnailList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailList.h; sourceTree = "<group>"; };
+		6EA454A31630A8AC00505CAE /* ThumbnailList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailList.m; sourceTree = "<group>"; };
+		6EA454A41630A8AC00505CAE /* ThumbnailListDataSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailListDataSourceDelegate.h; sourceTree = "<group>"; };
+		6ED441661635511600D42534 /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
+		6ED441671635511600D42534 /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
+		6ED441691635511600D42534 /* EGOImageLoadConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageLoadConnection.h; sourceTree = "<group>"; };
+		6ED4416A1635511600D42534 /* EGOImageLoadConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageLoadConnection.m; sourceTree = "<group>"; };
+		6ED4416B1635511600D42534 /* EGOImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageLoader.h; sourceTree = "<group>"; };
+		6ED4416C1635511600D42534 /* EGOImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageLoader.m; sourceTree = "<group>"; };
+		6ED4416E1635511600D42534 /* EGOImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageView.h; sourceTree = "<group>"; };
+		6ED4416F1635511600D42534 /* EGOImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageView.m; sourceTree = "<group>"; };
+		6ED441771635536400D42534 /* EGOImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageButton.h; sourceTree = "<group>"; };
+		6ED441781635536400D42534 /* EGOImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageButton.m; sourceTree = "<group>"; };
+		6EEF7C7A1630B14500C0C0BE /* alwatan7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan7.png; sourceTree = "<group>"; };
+		6EEF7C7B1630B14500C0C0BE /* alwatan6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan6.png; sourceTree = "<group>"; };
+		6EEF7C7C1630B14500C0C0BE /* alwatan5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan5.png; sourceTree = "<group>"; };
+		6EEF7C7D1630B14500C0C0BE /* alwatan4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan4.png; sourceTree = "<group>"; };
+		6EEF7C7E1630B14500C0C0BE /* alwatan3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan3.png; sourceTree = "<group>"; };
+		6EEF7C7F1630B14500C0C0BE /* alwatan0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan0.png; sourceTree = "<group>"; };
+		6EEF7C801630B14500C0C0BE /* alwatan2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan2.png; sourceTree = "<group>"; };
+		6EEF7C811630B14500C0C0BE /* alwatan1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan1.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6EA454731630A87900505CAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EA4547B1630A87900505CAE /* UIKit.framework in Frameworks */,
+				6EA4547D1630A87900505CAE /* Foundation.framework in Frameworks */,
+				6EA4547F1630A87900505CAE /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6EA4546B1630A87900505CAE = {
+			isa = PBXGroup;
+			children = (
+				6EA454AA1630AAF400505CAE /* Images */,
+				6EA454A71630A8B100505CAE /* ThumbnailList */,
+				6EA454801630A87900505CAE /* ThumbnailListView */,
+				6EA454791630A87900505CAE /* Frameworks */,
+				6EA454771630A87900505CAE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6EA454771630A87900505CAE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6EA454761630A87900505CAE /* ThumbnailListView.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6EA454791630A87900505CAE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6EA4547A1630A87900505CAE /* UIKit.framework */,
+				6EA4547C1630A87900505CAE /* Foundation.framework */,
+				6EA4547E1630A87900505CAE /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6EA454801630A87900505CAE /* ThumbnailListView */ = {
+			isa = PBXGroup;
+			children = (
+				6EA454891630A87900505CAE /* ThumbnailListAppDelegate.h */,
+				6EA4548A1630A87900505CAE /* ThumbnailListAppDelegate.m */,
+				6EA454921630A87900505CAE /* ThumbnailListViewController.h */,
+				6EA454931630A87900505CAE /* ThumbnailListViewController.m */,
+				6EA454951630A87900505CAE /* ThumbnailListViewController_iPhone.xib */,
+				6EA454981630A87900505CAE /* ThumbnailListViewController_iPad.xib */,
+				6EA454811630A87900505CAE /* Supporting Files */,
+			);
+			path = ThumbnailListView;
+			sourceTree = "<group>";
+		};
+		6EA454811630A87900505CAE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6EA454821630A87900505CAE /* ThumbnailListView-Info.plist */,
+				6EA454831630A87900505CAE /* InfoPlist.strings */,
+				6EA454861630A87900505CAE /* main.m */,
+				6EA454881630A87900505CAE /* ThumbnailListView-Prefix.pch */,
+				6EA4548C1630A87900505CAE /* Default.png */,
+				6EA4548E1630A87900505CAE /* Default@2x.png */,
+				6EA454901630A87900505CAE /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6EA454A71630A8B100505CAE /* ThumbnailList */ = {
+			isa = PBXGroup;
+			children = (
+				6ED441751635511A00D42534 /* EGOImageView */,
+				6EA454A91630A8D800505CAE /* ThumbnailListDataSourceDelegate */,
+				6EA454A81630A8C100505CAE /* ThumbnailCell */,
+				6EA454A21630A8AC00505CAE /* ThumbnailList.h */,
+				6EA454A31630A8AC00505CAE /* ThumbnailList.m */,
+			);
+			name = ThumbnailList;
+			sourceTree = "<group>";
+		};
+		6EA454A81630A8C100505CAE /* ThumbnailCell */ = {
+			isa = PBXGroup;
+			children = (
+				6EA454A01630A8AC00505CAE /* ThumbnailCell.h */,
+				6EA454A11630A8AC00505CAE /* ThumbnailCell.m */,
+			);
+			name = ThumbnailCell;
+			sourceTree = "<group>";
+		};
+		6EA454A91630A8D800505CAE /* ThumbnailListDataSourceDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				6EA454A41630A8AC00505CAE /* ThumbnailListDataSourceDelegate.h */,
+			);
+			name = ThumbnailListDataSourceDelegate;
+			sourceTree = "<group>";
+		};
+		6EA454AA1630AAF400505CAE /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				6EEF7C7A1630B14500C0C0BE /* alwatan7.png */,
+				6EEF7C7B1630B14500C0C0BE /* alwatan6.png */,
+				6EEF7C7C1630B14500C0C0BE /* alwatan5.png */,
+				6EEF7C7D1630B14500C0C0BE /* alwatan4.png */,
+				6EEF7C7E1630B14500C0C0BE /* alwatan3.png */,
+				6EEF7C7F1630B14500C0C0BE /* alwatan0.png */,
+				6EEF7C801630B14500C0C0BE /* alwatan2.png */,
+				6EEF7C811630B14500C0C0BE /* alwatan1.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		6ED441681635511600D42534 /* EGOImageLoader */ = {
+			isa = PBXGroup;
+			children = (
+				6ED441691635511600D42534 /* EGOImageLoadConnection.h */,
+				6ED4416A1635511600D42534 /* EGOImageLoadConnection.m */,
+				6ED4416B1635511600D42534 /* EGOImageLoader.h */,
+				6ED4416C1635511600D42534 /* EGOImageLoader.m */,
+			);
+			path = EGOImageLoader;
+			sourceTree = "<group>";
+		};
+		6ED4416D1635511600D42534 /* EGOImageView */ = {
+			isa = PBXGroup;
+			children = (
+				6ED4416E1635511600D42534 /* EGOImageView.h */,
+				6ED4416F1635511600D42534 /* EGOImageView.m */,
+			);
+			path = EGOImageView;
+			sourceTree = "<group>";
+		};
+		6ED441751635511A00D42534 /* EGOImageView */ = {
+			isa = PBXGroup;
+			children = (
+				6ED441761635536400D42534 /* EGOImageButton */,
+				6ED441661635511600D42534 /* EGOCache.h */,
+				6ED441671635511600D42534 /* EGOCache.m */,
+				6ED441681635511600D42534 /* EGOImageLoader */,
+				6ED4416D1635511600D42534 /* EGOImageView */,
+			);
+			name = EGOImageView;
+			sourceTree = "<group>";
+		};
+		6ED441761635536400D42534 /* EGOImageButton */ = {
+			isa = PBXGroup;
+			children = (
+				6ED441771635536400D42534 /* EGOImageButton.h */,
+				6ED441781635536400D42534 /* EGOImageButton.m */,
+			);
+			path = EGOImageButton;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6EA454751630A87900505CAE /* ThumbnailListView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6EA4549D1630A87900505CAE /* Build configuration list for PBXNativeTarget "ThumbnailListView" */;
+			buildPhases = (
+				6EA454721630A87900505CAE /* Sources */,
+				6EA454731630A87900505CAE /* Frameworks */,
+				6EA454741630A87900505CAE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ThumbnailListView;
+			productName = ThumbnailListView;
+			productReference = 6EA454761630A87900505CAE /* ThumbnailListView.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6EA4546D1630A87900505CAE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ThumbnailList;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Mohammed Eldehairy";
+			};
+			buildConfigurationList = 6EA454701630A87900505CAE /* Build configuration list for PBXProject "ThumbnailListView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6EA4546B1630A87900505CAE;
+			productRefGroup = 6EA454771630A87900505CAE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6EA454751630A87900505CAE /* ThumbnailListView */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6EA454741630A87900505CAE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EA454851630A87900505CAE /* InfoPlist.strings in Resources */,
+				6EA4548D1630A87900505CAE /* Default.png in Resources */,
+				6EA4548F1630A87900505CAE /* Default@2x.png in Resources */,
+				6EA454911630A87900505CAE /* Default-568h@2x.png in Resources */,
+				6EA454971630A87900505CAE /* ThumbnailListViewController_iPhone.xib in Resources */,
+				6EA4549A1630A87900505CAE /* ThumbnailListViewController_iPad.xib in Resources */,
+				6EEF7C821630B14500C0C0BE /* alwatan7.png in Resources */,
+				6EEF7C831630B14500C0C0BE /* alwatan6.png in Resources */,
+				6EEF7C841630B14500C0C0BE /* alwatan5.png in Resources */,
+				6EEF7C851630B14500C0C0BE /* alwatan4.png in Resources */,
+				6EEF7C861630B14500C0C0BE /* alwatan3.png in Resources */,
+				6EEF7C871630B14500C0C0BE /* alwatan0.png in Resources */,
+				6EEF7C881630B14500C0C0BE /* alwatan2.png in Resources */,
+				6EEF7C891630B14500C0C0BE /* alwatan1.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6EA454721630A87900505CAE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EA454871630A87900505CAE /* main.m in Sources */,
+				6EA4548B1630A87900505CAE /* ThumbnailListAppDelegate.m in Sources */,
+				6EA454941630A87900505CAE /* ThumbnailListViewController.m in Sources */,
+				6EA454A51630A8AC00505CAE /* ThumbnailCell.m in Sources */,
+				6EA454A61630A8AC00505CAE /* ThumbnailList.m in Sources */,
+				6ED441701635511600D42534 /* EGOCache.m in Sources */,
+				6ED441711635511600D42534 /* EGOImageLoadConnection.m in Sources */,
+				6ED441721635511600D42534 /* EGOImageLoader.m in Sources */,
+				6ED441731635511600D42534 /* EGOImageView.m in Sources */,
+				6ED441791635536400D42534 /* EGOImageButton.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		6EA454831630A87900505CAE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6EA454841630A87900505CAE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6EA454951630A87900505CAE /* ThumbnailListViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6EA454961630A87900505CAE /* en */,
+			);
+			name = ThumbnailListViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		6EA454981630A87900505CAE /* ThumbnailListViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6EA454991630A87900505CAE /* en */,
+			);
+			name = ThumbnailListViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6EA4549B1630A87900505CAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6EA4549C1630A87900505CAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6EA4549E1630A87900505CAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThumbnailListView/ThumbnailListView-Prefix.pch";
+				INFOPLIST_FILE = "ThumbnailListView/ThumbnailListView-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		6EA4549F1630A87900505CAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ThumbnailListView/ThumbnailListView-Prefix.pch";
+				INFOPLIST_FILE = "ThumbnailListView/ThumbnailListView-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6EA454701630A87900505CAE /* Build configuration list for PBXProject "ThumbnailListView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EA4549B1630A87900505CAE /* Debug */,
+				6EA4549C1630A87900505CAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6EA4549D1630A87900505CAE /* Build configuration list for PBXNativeTarget "ThumbnailListView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EA4549E1630A87900505CAE /* Debug */,
+				6EA4549F1630A87900505CAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6EA4546D1630A87900505CAE /* Project object */;
+}
