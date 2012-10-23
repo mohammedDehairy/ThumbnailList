@@ -18,7 +18,8 @@
 {
     [super viewDidLoad];
     index1 = 0;
-    ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 400)];
+    ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 300)];
+    //[list setPageNumberLabelBackgroundColor:[UIColor redColor]];
     list.DataSource = self;
     [self.view addSubview:list];
     
@@ -31,7 +32,7 @@
 }
 -(int)numberOfcellsForthumbanilList:(ThumbnailList *)list
 {
-    return 200;
+    return 20;
 }
 -(ThumbnailCell*)thumbnailList:(ThumbnailList *)list cellForIndex:(int)index
 {

@@ -26,6 +26,8 @@
 		6EA454941630A87900505CAE /* ThumbnailListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA454931630A87900505CAE /* ThumbnailListViewController.m */; };
 		6EA454971630A87900505CAE /* ThumbnailListViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EA454951630A87900505CAE /* ThumbnailListViewController_iPhone.xib */; };
 		6EA4549A1630A87900505CAE /* ThumbnailListViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EA454981630A87900505CAE /* ThumbnailListViewController_iPad.xib */; };
+		6EB81BE21636C8DA001E3834 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EB81BE01636C8D9001E3834 /* arrow.png */; };
+		6EB81BE31636C8DA001E3834 /* arrow1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EB81BE11636C8D9001E3834 /* arrow1.png */; };
 		6EEF7C821630B14500C0C0BE /* alwatan7.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C7A1630B14500C0C0BE /* alwatan7.png */; };
 		6EEF7C831630B14500C0C0BE /* alwatan6.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C7B1630B14500C0C0BE /* alwatan6.png */; };
 		6EEF7C841630B14500C0C0BE /* alwatan5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EEF7C7C1630B14500C0C0BE /* alwatan5.png */; };
@@ -69,6 +71,8 @@
 		6EA454931630A87900505CAE /* ThumbnailListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThumbnailListViewController.m; sourceTree = "<group>"; };
 		6EA454961630A87900505CAE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ThumbnailListViewController_iPhone.xib; sourceTree = "<group>"; };
 		6EA454991630A87900505CAE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ThumbnailListViewController_iPad.xib; sourceTree = "<group>"; };
+		6EB81BE01636C8D9001E3834 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
+		6EB81BE11636C8D9001E3834 /* arrow1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow1.png; sourceTree = "<group>"; };
 		6EEF7C7A1630B14500C0C0BE /* alwatan7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan7.png; sourceTree = "<group>"; };
 		6EEF7C7B1630B14500C0C0BE /* alwatan6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan6.png; sourceTree = "<group>"; };
 		6EEF7C7C1630B14500C0C0BE /* alwatan5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alwatan5.png; sourceTree = "<group>"; };
@@ -142,6 +146,8 @@
 		6EA4546B1630A87900505CAE = {
 			isa = PBXGroup;
 			children = (
+				6EB81BE01636C8D9001E3834 /* arrow.png */,
+				6EB81BE11636C8D9001E3834 /* arrow1.png */,
 				6E26C8C816359F9A00BA2033 /* ThumbnailList View */,
 				6EA454AA1630AAF400505CAE /* Images */,
 				6EA454801630A87900505CAE /* ThumbnailListView */,
@@ -277,6 +283,8 @@
 				6EEF7C871630B14500C0C0BE /* alwatan0.png in Resources */,
 				6EEF7C881630B14500C0C0BE /* alwatan2.png in Resources */,
 				6EEF7C891630B14500C0C0BE /* alwatan1.png in Resources */,
+				6EB81BE21636C8DA001E3834 /* arrow.png in Resources */,
+				6EB81BE31636C8DA001E3834 /* arrow1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
