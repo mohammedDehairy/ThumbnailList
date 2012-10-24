@@ -14,6 +14,13 @@
 		6E26C8C516359F9700BA2033 /* EGOImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E26C8BB16359F9700BA2033 /* EGOImageView.m */; };
 		6E26C8C616359F9700BA2033 /* ThumbnailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E26C8BD16359F9700BA2033 /* ThumbnailCell.m */; };
 		6E26C8C716359F9700BA2033 /* ThumbnailList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E26C8BF16359F9700BA2033 /* ThumbnailList.m */; };
+		6E9833731637FCE40016C279 /* EditModeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9833721637FCE40016C279 /* EditModeView.m */; };
+		6E9833751637FD0C0016C279 /* EditModeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E9833741637FD0C0016C279 /* EditModeView.xib */; };
+		6E9833771637FE110016C279 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E9833761637FE110016C279 /* add.png */; };
+		6E99883916382B1A001EA1BD /* reload_all_tabs.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E99883816382B1A001EA1BD /* reload_all_tabs.png */; };
+		6E99883D16383658001EA1BD /* thumbs_002138-glossy-black-3d-button-icon-media-media2-arrow-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E99883C16383658001EA1BD /* thumbs_002138-glossy-black-3d-button-icon-media-media2-arrow-down.png */; };
+		6E998840163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E99883E163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down.png */; };
+		6E998841163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E99883F163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down1.png */; };
 		6EA4547B1630A87900505CAE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EA4547A1630A87900505CAE /* UIKit.framework */; };
 		6EA4547D1630A87900505CAE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EA4547C1630A87900505CAE /* Foundation.framework */; };
 		6EA4547F1630A87900505CAE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EA4547E1630A87900505CAE /* CoreGraphics.framework */; };
@@ -54,6 +61,15 @@
 		6E26C8BE16359F9700BA2033 /* ThumbnailList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailList.h; sourceTree = "<group>"; };
 		6E26C8BF16359F9700BA2033 /* ThumbnailList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailList.m; sourceTree = "<group>"; };
 		6E26C8C016359F9700BA2033 /* ThumbnailListDataSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailListDataSourceDelegate.h; sourceTree = "<group>"; };
+		6E9833711637FCE40016C279 /* EditModeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditModeView.h; sourceTree = "<group>"; };
+		6E9833721637FCE40016C279 /* EditModeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditModeView.m; sourceTree = "<group>"; };
+		6E9833741637FD0C0016C279 /* EditModeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditModeView.xib; sourceTree = "<group>"; };
+		6E9833761637FE110016C279 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = add.png; path = ../add.png; sourceTree = "<group>"; };
+		6E99883816382B1A001EA1BD /* reload_all_tabs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reload_all_tabs.png; path = ../reload_all_tabs.png; sourceTree = "<group>"; };
+		6E99883B16382C7F001EA1BD /* EditModeDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditModeDelegate.h; sourceTree = "<group>"; };
+		6E99883C16383658001EA1BD /* thumbs_002138-glossy-black-3d-button-icon-media-media2-arrow-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "thumbs_002138-glossy-black-3d-button-icon-media-media2-arrow-down.png"; path = "../thumbs_002138-glossy-black-3d-button-icon-media-media2-arrow-down.png"; sourceTree = "<group>"; };
+		6E99883E163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down.png"; path = "../thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down.png"; sourceTree = "<group>"; };
+		6E99883F163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down1.png"; path = "../thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down1.png"; sourceTree = "<group>"; };
 		6EA454761630A87900505CAE /* ThumbnailListView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThumbnailListView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EA4547A1630A87900505CAE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6EA4547C1630A87900505CAE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -129,6 +145,7 @@
 		6E26C8C816359F9A00BA2033 /* ThumbnailList View */ = {
 			isa = PBXGroup;
 			children = (
+				6E98336F1637FCB20016C279 /* EditModeView */,
 				6E26C8AF16359F9700BA2033 /* EGOCache.h */,
 				6E26C8B016359F9700BA2033 /* EGOCache.m */,
 				6E26C8B116359F9700BA2033 /* EGOImageButton */,
@@ -143,12 +160,36 @@
 			name = "ThumbnailList View";
 			sourceTree = "<group>";
 		};
+		6E98336F1637FCB20016C279 /* EditModeView */ = {
+			isa = PBXGroup;
+			children = (
+				6E9833711637FCE40016C279 /* EditModeView.h */,
+				6E9833721637FCE40016C279 /* EditModeView.m */,
+				6E9833741637FD0C0016C279 /* EditModeView.xib */,
+				6E99883B16382C7F001EA1BD /* EditModeDelegate.h */,
+			);
+			name = EditModeView;
+			sourceTree = "<group>";
+		};
+		6E99884216384775001EA1BD /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6E26C8C816359F9A00BA2033 /* ThumbnailList View */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
 		6EA4546B1630A87900505CAE = {
 			isa = PBXGroup;
 			children = (
+				6E99884216384775001EA1BD /* Classes */,
+				6E99883E163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down.png */,
+				6E99883F163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down1.png */,
+				6E99883C16383658001EA1BD /* thumbs_002138-glossy-black-3d-button-icon-media-media2-arrow-down.png */,
+				6E99883816382B1A001EA1BD /* reload_all_tabs.png */,
+				6E9833761637FE110016C279 /* add.png */,
 				6EB81BE01636C8D9001E3834 /* arrow.png */,
 				6EB81BE11636C8D9001E3834 /* arrow1.png */,
-				6E26C8C816359F9A00BA2033 /* ThumbnailList View */,
 				6EA454AA1630AAF400505CAE /* Images */,
 				6EA454801630A87900505CAE /* ThumbnailListView */,
 				6EA454791630A87900505CAE /* Frameworks */,
@@ -285,6 +326,12 @@
 				6EEF7C891630B14500C0C0BE /* alwatan1.png in Resources */,
 				6EB81BE21636C8DA001E3834 /* arrow.png in Resources */,
 				6EB81BE31636C8DA001E3834 /* arrow1.png in Resources */,
+				6E9833751637FD0C0016C279 /* EditModeView.xib in Resources */,
+				6E9833771637FE110016C279 /* add.png in Resources */,
+				6E99883916382B1A001EA1BD /* reload_all_tabs.png in Resources */,
+				6E99883D16383658001EA1BD /* thumbs_002138-glossy-black-3d-button-icon-media-media2-arrow-down.png in Resources */,
+				6E998840163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down.png in Resources */,
+				6E998841163837C7001EA1BD /* thumbs_001934-black-inlay-steel-square-icon-media-media2-arrow-down1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +352,7 @@
 				6E26C8C516359F9700BA2033 /* EGOImageView.m in Sources */,
 				6E26C8C616359F9700BA2033 /* ThumbnailCell.m in Sources */,
 				6E26C8C716359F9700BA2033 /* ThumbnailList.m in Sources */,
+				6E9833731637FCE40016C279 /* EditModeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,7 +18,7 @@
 {
     [super viewDidLoad];
     index1 = 0;
-    ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 300)];
+    ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 350)];
     //[list setPageNumberLabelBackgroundColor:[UIColor redColor]];
     list.DataSource = self;
     [self.view addSubview:list];
@@ -49,5 +49,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)RearrangeButtonTouched
+{
+    
+}
+-(void)AddButtonTouched
+{
+    
+}
 @end

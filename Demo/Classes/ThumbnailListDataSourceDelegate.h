@@ -13,4 +13,6 @@
 -(ThumbnailCell*)thumbnailList:(ThumbnailList*) list cellForIndex:(int)index;
 -(int)numberOfcellsForthumbanilList:(ThumbnailList *) list ;
 -(void)thumbnailList:(ThumbnailList *) list didSelectThumbAtIndex:(int)index;
+-(void)AddButtonTouched;
+-(void)RearrangeButtonTouched;
 @end

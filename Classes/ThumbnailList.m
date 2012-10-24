@@ -18,7 +18,7 @@
         // Initialization code
         UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(6, 0, self.frame.size.width, self.frame.size.height)];
          PagesLoaded = [[[NSMutableArray alloc] init] retain];
-        scroll.tag = 1;
+        scroll.tag = SCROLL_VIEW_TAG;
         scroll.pagingEnabled = YES;
         scroll.scrollEnabled = YES;
         scroll.contentSize = self.frame.size;
@@ -33,8 +33,64 @@
         cellWidth = 80;
         self.clipsToBounds = YES;
         queue = [[NSOperationQueue alloc] init];
+        UILabel *PageNumberlbl = [[UILabel alloc] initWithFrame:CGRectMake(140, self.frame.size.height-70, 50, 50)];
+        PageNumberlbl.tag = PAGE_NO_LABEL_TAG;
+        PageNumberlbl.backgroundColor = [UIColor grayColor];
+        [self addSubview:PageNumberlbl];
+        PageNumberlbl.text = @"1";
+        PageNumberlbl.textAlignment = NSTextAlignmentCenter;
+        PageNumberlbl.layer.cornerRadius = PageNumberlbl.frame.size.height/2;
+        UIButton *rightNav = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightNav addTarget:self action:@selector(navigateRight:) forControlEvents:UIControlEventTouchUpInside];
+        rightNav.frame = CGRectMake(240, self.frame.size.height-60, 30, 30);
+        [rightNav setImage:[UIImage imageNamed:@"arrow.png"] forState:UIControlStateNormal];
+        
+        rightNav.tag = RIGHT_NAV_TAG;
+        
+        UIButton *LeftNav = [UIButton buttonWithType:UIButtonTypeCustom];
+        [LeftNav setImage:[UIImage imageNamed:@"arrow1.png"] forState:UIControlStateNormal];
+        [LeftNav addTarget:self action:@selector(navigateLeft:) forControlEvents:UIControlEventTouchUpInside];
+        LeftNav.tag = LEFT_NAV_TAG;
+        LeftNav.frame = CGRectMake(60, self.frame.size.height-60, 30, 30);
+        currentPage = 0;
+        [self addSubview:rightNav];
+        [self addSubview:LeftNav];
+        
+        EditModeView *editView = [[EditModeView alloc] initWithFrame:CGRectMake(80, 0, 0, 0) withDelegate:self];
+        [self addSubview:editView];
+        subviewLayed = NO;
+       
     }
     return self;
+}
+-(void)navigateRight:(id)sender
+{
+    if((currentPage+1)<pageCount)
+    {
+        UIScrollView *scrollView = (UIScrollView*)[self viewWithTag:1];
+        CGRect frame;
+        frame.origin.x = scrollView.frame.size.width * (++currentPage);
+        frame.origin.y = 0;
+        frame.size = scrollView.frame.size;
+        [scrollView scrollRectToVisible:frame animated:YES];
+        UILabel *PageNumberlbl = (UILabel*)[self viewWithTag:PAGE_NO_LABEL_TAG];
+        PageNumberlbl.text = [NSString stringWithFormat:@"%d" ,currentPage+1,nil];
+    }
+}
+-(void)navigateLeft:(id)sender
+{
+    if(currentPage>0)
+    {
+        UIScrollView *scrollView = (UIScrollView*)[self viewWithTag:1];
+        CGRect frame;
+        
+        frame.origin.x = scrollView.frame.size.width * (--currentPage);
+        frame.origin.y = 0;
+        frame.size = scrollView.frame.size;
+        [scrollView scrollRectToVisible:frame animated:YES];
+        UILabel *PageNumberlbl = (UILabel*)[self viewWithTag:PAGE_NO_LABEL_TAG];
+        PageNumberlbl.text = [NSString stringWithFormat:@"%d" ,currentPage+1,nil];
+    }
 }
 -(id)init
 {
@@ -136,6 +192,12 @@
 {
     [super layoutSubviews];
     
+    
+    
+}
+-(void)willMoveToSuperview:(UIView *)newSuperview
+{
+    [super willMoveToSuperview:newSuperview];
     if([_DataSource respondsToSelector:@selector(numberOfcellsForthumbanilList:)])
     {
         numberOfCells = [_DataSource numberOfcellsForthumbanilList:self];
@@ -143,15 +205,15 @@
     {
         numberOfCells = 0;
     }
-   
-       
-    NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(LoadNextPage:) object:nil];
+    
+    
+    
+    NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(LoadNextPage:) object:self];
     if(!queue)
     {
         queue = [[NSOperationQueue alloc] init];
     }
     [queue addOperation:op];
-    
 }
 -(void)ThumbSelected:(id)sender
 {
@@ -162,91 +224,84 @@
         [_DataSource thumbnailList:self didSelectThumbAtIndex:index];
     }
 }
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
+-(void)LoadNextPage:(ThumbnailList*)list
 {
-    CGPoint offset = scrollView.contentOffset;
-    if(LastContentOffset.x>=offset.x)
+   // if(subviewLayed==NO)
     {
-        ScrollRight = YES;
-    }else
-    {
-        ScrollRight = NO;
-    }
-}
--(void)LoadNextPage:(UIScrollView*)scrollView
-{
-    int x = 20;
-    int y = 20;
-    UIScrollView *scroll = (UIScrollView*)[self viewWithTag:1];
-    NSArray *viewsToRemove = [scroll subviews];
-    for (UIView *v in viewsToRemove) {
-        if((v.tag>=10000)&&(v.tag<=(numberOfCells+10000)))
-        {
-            [v removeFromSuperview];
-        }
-    }
-    int margin = minCellMargin;
-    for(int i=0;i<numberOfCells;i++)
-    {
-        if([_DataSource respondsToSelector:@selector(thumbnailList:cellForIndex:)])
-        {
-            ThumbnailCell *cell = [_DataSource thumbnailList:self cellForIndex:i];
-            
-            [cell addTarget:self action:@selector(ThumbSelected:) forControlEvents:UIControlEventTouchUpInside];
-            
-            // Check if ThumbCells reached the bottom
-            // if reached the bottom reset y and increase x
-            
-            if((y + cellHeight +margin)<=self.frame.size.height-100)
+        int x = 20;
+        int y = 60;
+        subviewLayed = YES;
+        UIScrollView *scroll = (UIScrollView*)[list viewWithTag:SCROLL_VIEW_TAG];
+        NSArray *viewsToRemove = [scroll subviews];
+        for (UIView *v in viewsToRemove) {
+            if((v.tag>=10000)&&(v.tag<=(numberOfCells+10000)))
             {
-                if(i!=0)
-                {
-                    y += cellHeight +margin;
-                }
-            }else
-            {
-                y = 20;
-                
-                x += cellWidth + margin;
-                if((((int)(x/320))*320)==x)
-                {
-                    x+=margin;
-                }
+                [v removeFromSuperview];
             }
-            
-            
-            
-            //set cell size
-            cell.frame = CGRectMake(x, y, cellHeight, cellHeight);
-            
-            cell.tag = i+10000;
-            
-            //add cell to scrollView
-            [scroll addSubview:cell];
-            
         }
+        int margin = minCellMargin;
+        for(int i=0;i<numberOfCells;i++)
+        {
+            if([list.DataSource respondsToSelector:@selector(thumbnailList:cellForIndex:)])
+            {
+                ThumbnailCell *cell = [_DataSource thumbnailList:self cellForIndex:i];
+                
+                [cell addTarget:self action:@selector(ThumbSelected:) forControlEvents:UIControlEventTouchUpInside];
+                
+                // Check if ThumbCells reached the bottom
+                // if reached the bottom reset y and increase x
+                
+                if((y + cellHeight +margin)<=self.frame.size.height-160)
+                {
+                    if(i!=0)
+                    {
+                        y += cellHeight +margin;
+                    }
+                }else
+                {
+                    y = 60;
+                    if(i!=0)
+                    {
+                        x += cellWidth + margin;
+                    }
+                    if((((int)(x/320))*320)==x)
+                    {
+                        x+=margin;
+                    }
+                }
+                
+                
+                
+                //set cell size
+                cell.frame = CGRectMake(x, y, cellHeight, cellHeight);
+                
+                cell.tag = i+10000;
+                
+                //add cell to scrollView
+                [scroll addSubview:cell];
+                
+            }
+        }
+        
+        //calculate no of pages in pager
+        float perc = x/self.frame.size.width;
+       pageCount = (int)((perc)+1.0);
+        
+        //calculate ThumbListView width
+        int width  = pageCount * self.frame.size.width;
+        
+        
+        //set ThumbListView width
+        // self.frame = CGRectMake(0,50, width, self.frame.size.height);
+        /* [UIView animateWithDuration:0.5 animations:^(void) {
+         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, width, self.frame.size.height);
+         }];*/
+        
+        
+        
+        // set scrollView content size
+        scroll.contentSize = CGSizeMake(width, self.frame.size.height);
     }
-    
-    //calculate no of pages in pager
-    float perc = x/self.frame.size.width;
-    int pageCount = (int)((perc)+1.0);
-    
-    
-    
-    //calculate ThumbListView width
-    int width  = pageCount * self.frame.size.width;
-    
-    
-    //set ThumbListView width
-    // self.frame = CGRectMake(0,50, width, self.frame.size.height);
-    /* [UIView animateWithDuration:0.5 animations:^(void) {
-     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, width, self.frame.size.height);
-     }];*/
-    
-    
-    
-    // set scrollView content size
-    scroll.contentSize = CGSizeMake(width, self.frame.size.height);
 }
 /*-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
@@ -271,7 +326,46 @@
     LastContentOffset = scrollView.contentOffset;
 
 }*/
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+    // Update the page when more than 50% of the previous/next page is visible
+    if (sender.dragging) {
+        // scrolling is caused by user
+        UILabel *pageControl = (UILabel*)[self viewWithTag:PAGE_NO_LABEL_TAG];
+        CGFloat pageWidth = sender.frame.size.width;
+        int page = floor((sender.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+        pageControl.text = [NSString stringWithFormat:@"%d",(page % pageCount)+1,nil ];
+        currentPage = (page % pageCount);
+        sender = nil;
+        pageControl = nil;
+    }
+    
+}
+-(void)setRightNavButtonImage:(UIImage*)image
 {
+    UIButton *rightBtn = (UIButton*)[self viewWithTag:RIGHT_NAV_TAG];
+    [rightBtn setImage:image forState:UIControlStateNormal];
+}
+-(void)setLeftNavButtonImage:(UIImage*)image
+{
+    UIButton *LeftBtn = (UIButton*)[self viewWithTag:LEFT_NAV_TAG];
+    [LeftBtn setImage:image forState:UIControlStateNormal];
+}
+-(void)setPageNumberLabelBackgroundColor:(UIColor*)color
+{
+    UILabel *pageLabel = (UILabel*)[self viewWithTag:PAGE_NO_LABEL_TAG];
+    pageLabel.backgroundColor = color;
+}
+-(void)AddButtonTouched{
+    if([_DataSource respondsToSelector:@selector(AddButtonTouched)])
+    {
+        [_DataSource AddButtonTouched];
+    }
+}
+-(void)RearrangeButtonTouched
+{
+    if([_DataSource respondsToSelector:@selector(RearrangeButtonTouched)])
+    {
+        [_DataSource RearrangeButtonTouched];
+    }
 }
 @end

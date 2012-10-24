@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "ThumbnailListDataSourceDelegate.h"
-
-@interface ThumbnailList : UIView<UIScrollViewDelegate>
+#import <QuartzCore/QuartzCore.h>
+#import "EditModeView.h"
+#define RIGHT_NAV_TAG 88
+#define SCROLL_VIEW_TAG 1
+#define PAGE_NO_LABEL_TAG 33
+#define LEFT_NAV_TAG 55
+@interface ThumbnailList : UIView<UIScrollViewDelegate,EditModeDelegate>
 {
     @private
     int minPageNo;
@@ -24,9 +29,14 @@
     BOOL ScrollRight;
     NSMutableArray *PagesLoaded;
     NSOperationQueue *queue;
+    int pageCount;
+    BOOL subviewLayed;
     
 }
 @property(nonatomic,retain)id<ThumbnailListDataSourceDelegate> DataSource;
 @property(nonatomic)CGSize cellSize;
 -(void)ReloadData;
+-(void)setRightNavButtonImage:(UIImage*)image;
+-(void)setLeftNavButtonImage:(UIImage*)image;
+-(void)setPageNumberLabelBackgroundColor:(UIColor*)color;
 @end
