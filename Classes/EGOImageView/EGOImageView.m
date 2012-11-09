@@ -39,6 +39,14 @@
         
 		self.placeholderImage = anImage;
 		self.delegate = aDelegate;
+        /*UIActivityIndicatorView *loaderIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        loaderIndicator.frame = CGRectMake(0, 0, 70, 50);
+        loaderIndicator.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.2];
+        loaderIndicator.tag = 1001;*/
+        //[loaderIndicator setHidesWhenStopped:YES];
+        
+        //[self addSubview:loaderIndicator];
+        
 	}
 	
 	return self;
@@ -51,7 +59,8 @@
 		[imageURL release];
 		imageURL = nil;
 	}
-	
+	//UIActivityIndicatorView *loaderIndicator = (UIActivityIndicatorView*)[self viewWithTag:1001];
+   // [loaderIndicator startAnimating];
 	if(!aURL) {
 		self.image = self.placeholderImage;
 		imageURL = nil;
@@ -69,6 +78,9 @@
 		// trigger the delegate callback if the image was found in the cache
 		if([self.delegate respondsToSelector:@selector(imageViewLoadedImage:)]) {
 			[self.delegate imageViewLoadedImage:self];
+            
+           // [loaderIndicator stopAnimating];
+            //[loaderIndicator setHidden:YES];
 		}
 	} else {
 		self.image = self.placeholderImage;
