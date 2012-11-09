@@ -19,7 +19,10 @@
     [super viewDidLoad];
     index1 = 0;
     ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 350)];
+    list.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
+    list.autoresizesSubviews = YES;
     //[list setPageNumberLabelBackgroundColor:[UIColor redColor]];
+    list.tag = 11;
     list.DataSource = self;
     [self.view addSubview:list];
     
@@ -43,6 +46,13 @@
     NSString *img =[NSString stringWithFormat:@"%@%d.png",@"alwatan",index1];
     ThumbnailCell *cell = [[ThumbnailCell alloc] initWithFrame:CGRectMake(0, 0, 0, 0) withImage:img];
     return cell;
+}
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    ThumbnailList *list = (ThumbnailList*)[self.view viewWithTag:11];
+    [list orientationChanged:toInterfaceOrientation];
+    
 }
 - (void)didReceiveMemoryWarning
 {
