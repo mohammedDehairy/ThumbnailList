@@ -34,28 +34,7 @@
         cellWidth = 80;
         self.clipsToBounds = YES;
         queue = [[NSOperationQueue alloc] init];
-       /* UILabel *PageNumberlbl = [[UILabel alloc] initWithFrame:CGRectMake(140, self.frame.size.height-70, 50, 50)];
-        PageNumberlbl.tag = PAGE_NO_LABEL_TAG;
-        PageNumberlbl.backgroundColor = [UIColor grayColor];
-        [self addSubview:PageNumberlbl];
-        PageNumberlbl.text = @"1";
-        PageNumberlbl.textAlignment = NSTextAlignmentCenter;
-        PageNumberlbl.layer.cornerRadius = PageNumberlbl.frame.size.height/2;*/
-        /*UIButton *rightNav = [UIButton buttonWithType:UIButtonTypeCustom];
-        [rightNav addTarget:self action:@selector(navigateRight:) forControlEvents:UIControlEventTouchUpInside];
-        rightNav.frame = CGRectMake(240, self.frame.size.height-60, 30, 30);
-        [rightNav setImage:[UIImage imageNamed:@"arrow.png"] forState:UIControlStateNormal];
-        
-        rightNav.tag = RIGHT_NAV_TAG;
-        
-        UIButton *LeftNav = [UIButton buttonWithType:UIButtonTypeCustom];
-        [LeftNav setImage:[UIImage imageNamed:@"arrow1.png"] forState:UIControlStateNormal];
-        [LeftNav addTarget:self action:@selector(navigateLeft:) forControlEvents:UIControlEventTouchUpInside];
-        LeftNav.tag = LEFT_NAV_TAG;
-        LeftNav.frame = CGRectMake(60, self.frame.size.height-60, 30, 30);
-        currentPage = 0;
-        [self addSubview:rightNav];
-        [self addSubview:LeftNav];*/
+
         
 
         subviewLayed = NO;
@@ -73,8 +52,7 @@
         frame.origin.y = 0;
         frame.size = scrollView.frame.size;
         [scrollView scrollRectToVisible:frame animated:YES];
-        /*UILabel *PageNumberlbl = (UILabel*)[self viewWithTag:PAGE_NO_LABEL_TAG];
-        PageNumberlbl.text = [NSString stringWithFormat:@"%d" ,currentPage+1,nil];*/
+
     }
 }
 -(void)navigateLeft:(id)sender
@@ -88,8 +66,7 @@
         frame.origin.y = 0;
         frame.size = scrollView.frame.size;
         [scrollView scrollRectToVisible:frame animated:YES];
-        /*UILabel *PageNumberlbl = (UILabel*)[self viewWithTag:PAGE_NO_LABEL_TAG];
-        PageNumberlbl.text = [NSString stringWithFormat:@"%d" ,currentPage+1,nil];*/
+
     }
 }
 -(id)init
@@ -242,7 +219,7 @@
                     
                 }
                 
-            }else //if((y+cellHeight+margin)<=self.frame.size.height-20)
+            }else 
             {
                 x+=cellWidth +margin;
                 if(cell.tag!=10000)
@@ -266,8 +243,6 @@
             cell.frame = CGRectMake(x, y, cellHeight, cellHeight);
             
             
-            //add cell to scrollView
-           // [scroll addSubview:cell];
             
         }
     }
@@ -324,7 +299,7 @@
 
 -(void)LoadNextPage:(ThumbnailList*)list
 {
-   // if(subviewLayed==NO)
+   
     
     
     int margin;
@@ -427,13 +402,10 @@
     // Update the page when more than 50% of the previous/next page is visible
     if (sender.dragging) {
         // scrolling is caused by user
-       // UILabel *pageControl = (UILabel*)[self viewWithTag:PAGE_NO_LABEL_TAG];
         CGFloat pageWidth = sender.frame.size.width;
         int page = floor((sender.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-        //pageControl.text = [NSString stringWithFormat:@"%d",(page % pageCount)+1,nil ];
         currentPage = (page % pageCount);
         sender = nil;
-        //pageControl = nil;
     }
     
 }
