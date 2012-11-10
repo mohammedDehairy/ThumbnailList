@@ -36,7 +36,5 @@
 @property(nonatomic)CGSize cellSize;
 -(void)ReloadData;
 -(void)orientationChanged:(UIInterfaceOrientation)orientaion;
--(void)setRightNavButtonImage:(UIImage*)image;
--(void)setLeftNavButtonImage:(UIImage*)image;
--(void)setPageNumberLabelBackgroundColor:(UIColor*)color;
+
 @end

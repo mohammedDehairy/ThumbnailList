@@ -21,12 +21,11 @@
     ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 350)];
     list.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
     list.autoresizesSubviews = YES;
-    //[list setPageNumberLabelBackgroundColor:[UIColor redColor]];
     list.tag = 11;
     list.DataSource = self;
     [self.view addSubview:list];
     
-	// Do any additional setup after loading the view, typically from a nib.
+	
 }
 -(void)thumbnailList:(ThumbnailList *)list didSelectThumbAtIndex:(int)index
 {
