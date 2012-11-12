@@ -39,7 +39,7 @@
 -(ThumbnailCell*)thumbnailList:(ThumbnailList *)list cellForIndex:(int)index
 {
     index1++;
-    if (index1>=7) {
+    if (index1>=5) {
         index1 = 0;
     }
     NSString *img =[NSString stringWithFormat:@"%@%d.png",@"alwatan",index1];

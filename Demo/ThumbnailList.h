@@ -15,7 +15,7 @@
 #define LEFT_NAV_TAG 55
 @interface ThumbnailList : UIView<UIScrollViewDelegate>
 {
-    @private
+@private
     int minPageNo;
     int numberOfCells;
     int cellHeight;

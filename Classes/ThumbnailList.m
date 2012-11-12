@@ -17,7 +17,7 @@
     if (self) {
         // Initialization code
         UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(6, 0, self.frame.size.width, self.frame.size.height)];
-         PagesLoaded = [[[NSMutableArray alloc] init] retain];
+        PagesLoaded = [[[NSMutableArray alloc] init] retain];
         scroll.tag = SCROLL_VIEW_TAG;
         scroll.pagingEnabled = YES;
         scroll.scrollEnabled = YES;
@@ -34,11 +34,11 @@
         cellWidth = 80;
         self.clipsToBounds = YES;
         queue = [[NSOperationQueue alloc] init];
-
         
-
+        
+        
         subviewLayed = NO;
-       
+        
     }
     return self;
 }
@@ -52,7 +52,7 @@
         frame.origin.y = 0;
         frame.size = scrollView.frame.size;
         [scrollView scrollRectToVisible:frame animated:YES];
-
+        
     }
 }
 -(void)navigateLeft:(id)sender
@@ -66,7 +66,7 @@
         frame.origin.y = 0;
         frame.size = scrollView.frame.size;
         [scrollView scrollRectToVisible:frame animated:YES];
-
+        
     }
 }
 -(id)init
@@ -75,7 +75,7 @@
     if (self) {
         // Initialization code
         UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-         PagesLoaded = [[[NSMutableArray alloc] init] retain];
+        PagesLoaded = [[[NSMutableArray alloc] init] retain];
         scroll.tag = 1;
         scroll.pagingEnabled = YES;
         scroll.scrollEnabled = YES;
@@ -150,13 +150,13 @@
     //cgcontextsets
     
     // Now fill the rectangle, so the shadow gets drawn
-    [aColor setFill];   
-    CGContextSaveGState(context);   
+    [aColor setFill];
+    CGContextSaveGState(context);
     CGContextAddPath(context, path);
     CGContextEOFillPath(context);
     
     // Release the paths
-    CGPathRelease(path);    
+    CGPathRelease(path);
     CGPathRelease(visiblePath);
     
 }
@@ -183,7 +183,7 @@
 {
     [super layoutSubviews];
     
-   
+    
 }
 -(void)orientationChanged:(UIInterfaceOrientation)orientaion;
 {
@@ -200,7 +200,7 @@
     subviewLayed = YES;
     UIScrollView *scroll = (UIScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
     NSArray *viewsToRemove = [scroll subviews];
-
+    
     
     for(ThumbnailCell *cell in viewsToRemove)
     {
@@ -219,7 +219,7 @@
                     
                 }
                 
-            }else 
+            }else
             {
                 x+=cellWidth +margin;
                 if(cell.tag!=10000)
@@ -257,7 +257,7 @@
     
     
     
-
+    
     
     
     
@@ -269,20 +269,21 @@
     
     int newPage = xratio*pageCount;
     
-
+    
     
     scroll.contentSize = CGSizeMake(width, self.frame.size.height);
     
-    CGPoint newoffset = CGPointMake(newPage*self.frame.size.width, offset.y);
-    [scroll setContentOffset:newoffset];
+    //CGPoint newoffset = CGPointMake(newPage*self.frame.size.width, offset.y);
+    [scroll setContentOffset:CGPointZero];
     
 }
 -(void)willMoveToSuperview:(UIView *)newSuperview
 {
+    [super willMoveToSuperview:newSuperview];
     if(newSuperview)
     {
-        [super willMoveToSuperview:newSuperview];
-
+        
+        
         [self ReloadData];
         
     }
@@ -299,7 +300,7 @@
 
 -(void)LoadNextPage:(ThumbnailList*)list
 {
-   
+    
     
     
     int margin;
@@ -314,7 +315,7 @@
     int x = margin;
     int y = 20;
     subviewLayed = YES;
-    UIScrollView *scroll = (UIScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
+    UIScrollView *scroll = (UIScrollView*)[list viewWithTag:SCROLL_VIEW_TAG];
     NSArray *viewsToRemove = [scroll subviews];
     for (UIView *v in viewsToRemove) {
         if((v.tag>=10000)&&(v.tag<=(numberOfCells+10000)))
@@ -385,17 +386,16 @@
     
     
     
-
+    
     
     
     
     // set scrollView content size
     scroll.contentSize = CGSizeMake(width, self.frame.size.height);
     
-
     
     
-  
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
