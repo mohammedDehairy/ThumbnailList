@@ -23,12 +23,15 @@
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
+    UINavigationController *navController;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.viewController = [[[ThumbnailListViewController alloc] initWithNibName:@"ThumbnailListViewController_iPhone" bundle:nil] autorelease];
+        
     } else {
         self.viewController = [[[ThumbnailListViewController alloc] initWithNibName:@"ThumbnailListViewController_iPad" bundle:nil] autorelease];
     }
-    self.window.rootViewController = self.viewController;
+    navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
+    self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     return YES;
 }

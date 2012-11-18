@@ -30,8 +30,10 @@
     NSOperationQueue *queue;
     int pageCount;
     BOOL subviewLayed;
-    
+    int LastnumberOfCellsInPage;
+    BOOL draggingEnabled;
 }
+@property(nonatomic)BOOL EnableEdit;
 @property(nonatomic,retain)id<ThumbnailListDataSourceDelegate> DataSource;
 @property(nonatomic)CGSize cellSize;
 -(void)ReloadData;

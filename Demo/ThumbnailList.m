@@ -11,6 +11,7 @@
 @implementation ThumbnailList
 @synthesize DataSource = _DataSource;
 @synthesize cellSize = _cellSize;
+@synthesize EnableEdit = editEnabled;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -26,6 +27,7 @@
         [scroll setShowsVerticalScrollIndicator:NO];
         scroll.autoresizingMask =UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
         scroll.delegate = self;
+        scroll.canCancelContentTouches = NO;
         [self addSubview:scroll];
         _cellSize = CGSizeMake(70, 50);
         minPageNo = 1;
@@ -35,8 +37,8 @@
         self.clipsToBounds = YES;
         queue = [[NSOperationQueue alloc] init];
         
-        
-        
+        draggingEnabled = YES;
+        editEnabled = NO;
         subviewLayed = NO;
         
     }
@@ -201,7 +203,8 @@
     UIScrollView *scroll = (UIScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
     NSArray *viewsToRemove = [scroll subviews];
     
-    
+    int numberOfCellsInPageBuffer = 0;
+    int numberOfCellsInPage = 0;
     for(ThumbnailCell *cell in viewsToRemove)
     {
         if((cell.tag>=10000)&&(cell.tag<=(numberOfCells+10000)))
@@ -213,6 +216,7 @@
             
             if((((int)((x+cellWidth +margin)/self.frame.size.width))*self.frame.size.width)!=(x+cellWidth +margin) )
             {
+                numberOfCellsInPageBuffer++;
                 if(cell.tag!=10000)
                 {
                     x += cellWidth +margin;
@@ -221,15 +225,19 @@
                 
             }else
             {
+                 numberOfCellsInPageBuffer++;
                 x+=cellWidth +margin;
                 if(cell.tag!=10000)
                 {
                     if((y+cellHeight+margin)<=self.frame.size.height-100)
                     {
+                       
                         y += cellHeight + margin;
                         x -= self.frame.size.width-margin;
                     }else
                     {
+                        numberOfCellsInPage = numberOfCellsInPageBuffer;
+                        numberOfCellsInPageBuffer = 0;
                         x+=  margin;
                         y = 20;
                     }
@@ -242,39 +250,44 @@
             //set cell size
             cell.frame = CGRectMake(x, y, cellHeight, cellHeight);
             
-            
+            cell.originalRect = CGRectMake(x, y, cellHeight, cellHeight);
             
         }
     }
     
     //calculate no of pages in pager
-    int oldPageCount = pageCount;
     float perc = x/self.frame.size.width;
     pageCount = (int)((perc)+1.0);
     
     //calculate ThumbListView width
     int width  = pageCount * self.frame.size.width;
     
+    LastContentOffset = scroll.contentOffset;
     
+    int firstCellInPageIndex;
+    int pageWidth;
+    if(UIInterfaceOrientationIsLandscape(orientaion))
+    {
+        pageWidth = 480;
+        firstCellInPageIndex = ((currentPage)*LastnumberOfCellsInPage);
+    }else
+    {
+        pageWidth = 320;
+        firstCellInPageIndex = ((currentPage)*LastnumberOfCellsInPage);
+    }
+    LastnumberOfCellsInPage = numberOfCellsInPage;
+    // Update Scroll View Content Offset
+    ThumbnailCell *firstCellInPage = (ThumbnailCell*)[scroll viewWithTag:firstCellInPageIndex+10000];
+
     
-    
-    
-    
-    
-    // set scrollView content size
-    
-    CGPoint offset = scroll.contentOffset;
-    float xratio = currentPage/oldPageCount;
-    
-    
-    int newPage = xratio*pageCount;
-    
-    
+    int newContentOffset = (firstCellInPage.frame.origin.x/pageWidth);
+    newContentOffset *= pageWidth;
     
     scroll.contentSize = CGSizeMake(width, self.frame.size.height);
     
-    //CGPoint newoffset = CGPointMake(newPage*self.frame.size.width, offset.y);
-    [scroll setContentOffset:CGPointZero];
+    [scroll setContentOffset:CGPointMake(newContentOffset, scroll.contentOffset.y)];
+    
+    LastContentOffset = scroll.contentOffset;
     
 }
 -(void)willMoveToSuperview:(UIView *)newSuperview
@@ -288,16 +301,142 @@
         
     }
 }
--(void)ThumbSelected:(id)sender
+-(UIScrollView*)getScrollView
 {
-    ThumbnailCell *cell = (ThumbnailCell*)sender;
-    int index = cell.tag-10000;
-    if([_DataSource respondsToSelector:@selector(thumbnailList:didSelectThumbAtIndex:)])
+    @synchronized(@"scroll")
     {
-        [_DataSource thumbnailList:self didSelectThumbAtIndex:index];
+        return (UIScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
+    }
+    
+}
+-(void)scrollToCurrentPage
+{
+    [[self getScrollView] setContentOffset:CGPointMake(currentPage*self.frame.size.width, 0) animated:YES];
+}
+-(void)ThumbSelected:(id)sender withEvent:(UIEvent*)event
+{
+     ThumbnailCell *control = sender;
+    if(editEnabled == NO)
+    {
+        
+        int index = control.tag-10000;
+        if([_DataSource respondsToSelector:@selector(thumbnailList:didSelectThumbAtIndex:)])
+        {
+            [_DataSource thumbnailList:self didSelectThumbAtIndex:index];
+        }
+    }else 
+    {
+        //[self performSelectorInBackground:@selector(DetectDragIntersection:) withObject:control];
+        BOOL intersectionDetected = NO;
+        UIScrollView *scroll = [self getScrollView];
+        [self scrollToCurrentPage];
+        for (ThumbnailCell *otherCell in scroll.subviews)
+        {
+            if (otherCell == control)
+                continue;
+            CGRect absoluteOtherViewRect  = otherCell.frame; // Calculate
+            if (CGRectIntersectsRect(control.frame, absoluteOtherViewRect))
+            {
+                // Collision!
+                intersectionDetected = YES;
+                [UIView animateWithDuration:0.2 animations:^(void){
+                    
+                    otherCell.frame = control.originalRect;
+                    
+                    control.frame = otherCell.originalRect;
+                    
+                    control.originalRect = control.frame;
+                    otherCell.originalRect = otherCell.frame;
+                    
+                    //swap tags
+                    int controlTag = control.tag;
+                    control.tag = otherCell.tag;
+                    
+                    otherCell.tag = controlTag;
+                    
+                    
+                } completion:^(BOOL finished){
+                    
+                    if([_DataSource respondsToSelector:@selector(thumbnailList:didSwapCellAtIndex:withCellAtIndex:)])
+                    {
+                        [_DataSource thumbnailList:self didSwapCellAtIndex:control.tag-10000 withCellAtIndex:otherCell.tag-10000];
+                    }
+                    
+                }];
+                break;
+            }
+            
+        }
+        if(intersectionDetected == NO)
+        {
+            [UIView animateWithDuration:0.2 animations:^(void){
+                
+                control.frame = control.originalRect;
+                
+                
+                //draggingEnabled = NO;
+                
+            } completion:^(BOOL finished){
+                
+                //[self performSelector:@selector(EnableDragging) withObject:nil afterDelay:1.0];
+               
+                
+            }];
+        }
+
     }
 }
+/*-(void)DetectDragIntersection:(ThumbnailCell*)control
+{
+    BOOL intersectionDetected = NO;
+    UIScrollView *scroll = [self getScrollView];
+    for (ThumbnailCell *otherCell in scroll.subviews)
+    {
+        if (otherCell == control)
+            continue;
+        CGRect absoluteOtherViewRect  = otherCell.frame; // Calculate
+        if (CGRectIntersectsRect(control.frame, absoluteOtherViewRect))
+        {
+            // Collision!
+            intersectionDetected = YES;
+            [UIView animateWithDuration:0.2 animations:^(void){
+                
+                otherCell.frame = control.originalRect;
+                
+                control.frame = otherCell.originalRect;
+                
+                control.originalRect = control.frame;
+                otherCell.originalRect = otherCell.frame;
+                
+                
+                //draggingEnabled = NO;
+                
+            } completion:^(BOOL finished){
+                
+                //[self performSelector:@selector(EnableDragging) withObject:nil afterDelay:1.0];
+                
+            }];
+            break;
+        }
+        
+    }
+    if(intersectionDetected == NO)
+    {
+        [UIView animateWithDuration:0.2 animations:^(void){
+            
+            control.frame = control.originalRect;
+            
+            
+            //draggingEnabled = NO;
+            
+        } completion:^(BOOL finished){
+            
+            //[self performSelector:@selector(EnableDragging) withObject:nil afterDelay:1.0];
+            
+        }];
+    }
 
+}*/
 -(void)LoadNextPage:(ThumbnailList*)list
 {
     
@@ -323,20 +462,22 @@
             [v removeFromSuperview];
         }
     }
-    
+    int numberOfCellsInPageBuffer = 0;
+    int numberOfCellsInPage = 0;
     for(int i=0;i<numberOfCells;i++)
     {
         if([self.DataSource respondsToSelector:@selector(thumbnailList:cellForIndex:)])
         {
             ThumbnailCell *cell = [_DataSource thumbnailList:list cellForIndex:i];
             
-            [cell addTarget:list action:@selector(ThumbSelected:) forControlEvents:UIControlEventTouchUpInside];
-            
+            [cell addTarget:list action:@selector(ThumbSelected:withEvent:) forControlEvents:UIControlEventTouchUpInside];
+            //uicontrolev
             // Check if ThumbCells reached the bottom
             // if reached the bottom reset y and increase x
             
             if((((int)((x+cellWidth +margin)/self.frame.size.width))*self.frame.size.width)!=(x+cellWidth +margin) )
             {
+                numberOfCellsInPageBuffer++;
                 if(i!=0)
                 {
                     x += cellWidth +margin;
@@ -345,6 +486,7 @@
                 
             }else //if((y+cellHeight+margin)<=self.frame.size.height-20)
             {
+                numberOfCellsInPageBuffer++;
                 x+=cellWidth +margin;
                 if(i!=0)
                 {
@@ -354,6 +496,8 @@
                         x -= self.frame.size.width-margin;
                     }else
                     {
+                        numberOfCellsInPage = numberOfCellsInPageBuffer;
+                        numberOfCellsInPageBuffer = 0;
                         x+=  margin;
                         y = 20;
                     }
@@ -365,8 +509,11 @@
             
             //set cell size
             cell.frame = CGRectMake(x, y, cellHeight, cellHeight);
-            
+            cell.originalRect = CGRectMake(x, y, cellHeight, cellHeight);
             cell.tag = i+10000;
+            
+            //add drag and drop event
+            [cell addTarget:self action:@selector(CellMoved:withEvent:) forControlEvents:UIControlEventTouchDragInside];
             
             //add cell to scrollView
             [scroll addSubview:cell];
@@ -383,7 +530,7 @@
     //calculate ThumbListView width
     int width  = pageCount * self.frame.size.width;
     
-    
+    LastnumberOfCellsInPage = numberOfCellsInPage;
     
     
     
@@ -397,16 +544,52 @@
     
     
 }
-
+- (IBAction) CellMoved:(id) sender withEvent:(UIEvent *) event
+{
+    if(editEnabled == YES)
+    {
+        
+        UIScrollView *scroll = (UIScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
+        CGPoint point = [[[event allTouches] anyObject] locationInView:scroll];
+        ThumbnailCell *control = sender;
+        control.center = point;
+        CGPoint pointInSelf = [[[event allTouches] anyObject] locationInView:self];
+        if((pointInSelf.x+40)>self.frame.size.width-20 && currentPage!=pageCount-1)
+        {
+        
+            //[self performSelectorInBackground:@selector(MoveToNextPage) withObject:nil];
+        
+            [scroll bringSubviewToFront:control];
+             [scroll setContentOffset:CGPointMake(scroll.contentOffset.x+self.frame.size.width-100, 0) animated:YES];
+            control.center = CGPointMake(point.x+self.frame.size.width-100, point.y);
+            
+            
+        }else if((pointInSelf.x-40)<20 && currentPage!=0)
+        {
+            [scroll bringSubviewToFront:control];
+            [scroll setContentOffset:CGPointMake(scroll.contentOffset.x-self.frame.size.width+100, 0) animated:YES];
+            control.center = CGPointMake(point.x-self.frame.size.width+100, point.y);
+        }
+        
+    }
+}
+-(void)MoveToNextPage
+{
+    UIScrollView *scroll = [self getScrollView];
+    [scroll setContentOffset:CGPointMake(scroll.contentOffset.x+self.frame.size.width, scroll.contentOffset.y) animated:YES];
+}
+-(void)EnableDragging
+{
+    draggingEnabled = YES;
+}
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
     // Update the page when more than 50% of the previous/next page is visible
-    if (sender.dragging) {
         // scrolling is caused by user
         CGFloat pageWidth = sender.frame.size.width;
         int page = floor((sender.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
         currentPage = (page % pageCount);
         sender = nil;
-    }
+    
     
 }
 -(void)setRightNavButtonImage:(UIImage*)image

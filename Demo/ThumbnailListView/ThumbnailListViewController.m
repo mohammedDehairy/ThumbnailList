@@ -19,13 +19,33 @@
     [super viewDidLoad];
     index1 = 0;
     ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 350)];
+    list.tag = 101;
     list.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
     list.autoresizesSubviews = YES;
     list.tag = 11;
     list.DataSource = self;
     [self.view addSubview:list];
-    
+    UIBarButtonItem *EditBtn = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonSystemItemEdit target:self action:@selector(Edit)];
+    self.navigationItem.rightBarButtonItem = EditBtn;
 	
+}
+-(void)Edit
+{
+    UIBarButtonItem *btn = self.navigationItem.rightBarButtonItem;
+     ThumbnailList *list = (ThumbnailList*)[self.view viewWithTag:11];
+    if([btn.title isEqualToString:@"Edit"])
+    {
+    
+        btn.title = @"Done";
+       
+        list.EnableEdit = YES;
+    }else
+    {
+        btn.title = @"Edit";
+        
+        list.EnableEdit = NO;
+    }
+    
 }
 -(void)thumbnailList:(ThumbnailList *)list didSelectThumbAtIndex:(int)index
 {
@@ -45,6 +65,10 @@
     NSString *img =[NSString stringWithFormat:@"%@%d.png",@"alwatan",index1];
     ThumbnailCell *cell = [[ThumbnailCell alloc] initWithFrame:CGRectMake(0, 0, 0, 0) withImage:img];
     return cell;
+}
+-(void)thumbnailList:(ThumbnailList *)list didSwapCellAtIndex:(int)sourceIndex withCellAtIndex:(int)destinationIndex
+{
+    //swap objects in data source and database
 }
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {

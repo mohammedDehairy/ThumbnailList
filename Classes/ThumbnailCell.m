@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "EGOImageView.h"
 @implementation ThumbnailCell
-
+@synthesize originalRect ;
 - (id)initWithFrame:(CGRect)frame withImage:(NSString*)img
 {
     self = [super initWithFrame:frame];
@@ -21,9 +21,11 @@
         //self.imageView.contentMode = UIViewContentModeScaleToFill;
         self.layer.borderColor = [UIColor grayColor].CGColor;
         self.layer.borderWidth = 2.0f;
+        self.exclusiveTouch = YES;
     }
     return self;
 }
+
 -(id)initWithFrame:(CGRect)frame withImageFromUrl:(NSURL*)imgurl withPlaceHolderImage:(NSString*)img
 {
     self = [super initWithPlaceholderImage:[UIImage imageNamed:img]];
