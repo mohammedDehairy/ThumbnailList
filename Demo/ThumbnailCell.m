@@ -18,8 +18,7 @@
     if (self) {
         // Initialization code
         [self setImage:[[UIImage imageNamed:img] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal] ;
-        //self.layer.cornerRadius = 10;
-        //self.imageView.contentMode = UIViewContentModeScaleToFill;
+
         self.layer.borderColor = [UIColor grayColor].CGColor;
         self.layer.borderWidth = 3.0f;
         self.exclusiveTouch = YES;
@@ -42,8 +41,7 @@
         // Initialization code
         self.frame = frame;
         self.imageURL = imgurl;
-        //self.layer.cornerRadius = 10;
-        //self.imageView.contentMode = UIViewContentModeScaleToFill;
+
         self.layer.borderColor = [UIColor grayColor].CGColor;
         self.layer.borderWidth = 2.0f;
     }
