@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "EGOImageButton.h"
+#import "ThumbnailCellDelegate.h"
 @interface ThumbnailCell : EGOImageButton
 {
     CGRect originalRect;
 }
 @property(nonatomic) CGRect originalRect;
+@property(nonatomic,retain)id<ThumbnailCellDelegate> ThumbnailCellDelegate;
 - (id)initWithFrame:(CGRect)frame withImage:(NSString*)img;
 -(id)initWithFrame:(CGRect)frame withImageFromUrl:(NSURL*)imgurl withPlaceHolderImage:(NSString*)img;
 

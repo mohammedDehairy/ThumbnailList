@@ -8,6 +8,7 @@
 
 #import "ThumbnailList.h"
 #import "ThumbnailCell.h"
+#import "MyScrollView.h"
 @implementation ThumbnailList
 @synthesize DataSource = _DataSource;
 @synthesize cellSize = _cellSize;
@@ -17,7 +18,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(6, 0, self.frame.size.width, self.frame.size.height)];
+        MyScrollView *scroll = [[MyScrollView alloc] initWithFrame:CGRectMake(6, 0, self.frame.size.width, self.frame.size.height)];
         PagesLoaded = [[[NSMutableArray alloc] init] retain];
         scroll.tag = SCROLL_VIEW_TAG;
         scroll.pagingEnabled = YES;
@@ -27,7 +28,7 @@
         [scroll setShowsVerticalScrollIndicator:NO];
         scroll.autoresizingMask =UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
         scroll.delegate = self;
-        scroll.canCancelContentTouches = NO;
+        
         [self addSubview:scroll];
         _cellSize = CGSizeMake(70, 50);
         minPageNo = 1;
@@ -48,7 +49,7 @@
 {
     if((currentPage+1)<pageCount)
     {
-        UIScrollView *scrollView = (UIScrollView*)[self viewWithTag:1];
+        MyScrollView *scrollView = (MyScrollView*)[self viewWithTag:1];
         CGRect frame;
         frame.origin.x = scrollView.frame.size.width * (++currentPage);
         frame.origin.y = 0;
@@ -61,7 +62,7 @@
 {
     if(currentPage>0)
     {
-        UIScrollView *scrollView = (UIScrollView*)[self viewWithTag:1];
+        MyScrollView *scrollView = (MyScrollView*)[self viewWithTag:1];
         CGRect frame;
         
         frame.origin.x = scrollView.frame.size.width * (--currentPage);
@@ -76,15 +77,17 @@
     self = [super init];
     if (self) {
         // Initialization code
-        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        MyScrollView *scroll = [[MyScrollView alloc] initWithFrame:CGRectMake(6, 0, self.frame.size.width, self.frame.size.height)];
         PagesLoaded = [[[NSMutableArray alloc] init] retain];
-        scroll.tag = 1;
+        scroll.tag = SCROLL_VIEW_TAG;
         scroll.pagingEnabled = YES;
         scroll.scrollEnabled = YES;
         scroll.contentSize = self.frame.size;
         [scroll setShowsHorizontalScrollIndicator:NO];
         [scroll setShowsVerticalScrollIndicator:NO];
+        scroll.autoresizingMask =UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
         scroll.delegate = self;
+        scroll.canCancelContentTouches = NO;
         [self addSubview:scroll];
         _cellSize = CGSizeMake(70, 50);
         minPageNo = 1;
@@ -93,6 +96,10 @@
         cellWidth = 80;
         self.clipsToBounds = YES;
         queue = [[NSOperationQueue alloc] init];
+        
+        draggingEnabled = YES;
+        editEnabled = YES;
+        subviewLayed = NO;
     }
     return self;
 }
@@ -200,7 +207,7 @@
     int x = margin;
     int y = 20;
     subviewLayed = YES;
-    UIScrollView *scroll = (UIScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
+    MyScrollView *scroll = (MyScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
     NSArray *viewsToRemove = [scroll subviews];
     
     int numberOfCellsInPageBuffer = 0;
@@ -301,11 +308,11 @@
         
     }
 }
--(UIScrollView*)getScrollView
+-(MyScrollView*)getScrollView
 {
     @synchronized(@"scroll")
     {
-        return (UIScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
+        return (MyScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
     }
     
 }
@@ -313,7 +320,25 @@
 {
     [[self getScrollView] setContentOffset:CGPointMake(currentPage*self.frame.size.width, 0) animated:YES];
 }
--(void)ThumbSelected:(id)sender withEvent:(UIEvent*)event
+-(void)CellTouched:(id)sender
+{
+    ThumbnailCell *control = sender;
+    if(editEnabled == NO)
+    {
+        
+        int index = control.tag-10000;
+        if([_DataSource respondsToSelector:@selector(thumbnailList:didSelectThumbAtIndex:)])
+        {
+            [_DataSource thumbnailList:self didSelectThumbAtIndex:index];
+        }
+    }else
+    {
+        
+                
+    }
+
+}
+/*-(void)ThumbSelected:(id)sender withEvent:(UIEvent*)event
 {
      ThumbnailCell *control = sender;
     if(editEnabled == NO)
@@ -326,7 +351,7 @@
         }
     }else 
     {
-        //[self performSelectorInBackground:@selector(DetectDragIntersection:) withObject:control];
+        
         BOOL intersectionDetected = NO;
         UIScrollView *scroll = [self getScrollView];
         [self scrollToCurrentPage];
@@ -342,11 +367,10 @@
                 [UIView animateWithDuration:0.2 animations:^(void){
                     
                     otherCell.frame = control.originalRect;
-                    
+                    otherCell.layer.borderColor = [UIColor blueColor].CGColor;
                     control.frame = otherCell.originalRect;
                     
-                    control.originalRect = control.frame;
-                    otherCell.originalRect = otherCell.frame;
+                    
                     
                     //swap tags
                     int controlTag = control.tag;
@@ -356,7 +380,9 @@
                     
                     
                 } completion:^(BOOL finished){
-                    
+                    //otherCell.layer.borderColor = [UIColor grayColor].CGColor;
+                    control.originalRect = control.frame;
+                    otherCell.originalRect = otherCell.frame;
                     if([_DataSource respondsToSelector:@selector(thumbnailList:didSwapCellAtIndex:withCellAtIndex:)])
                     {
                         [_DataSource thumbnailList:self didSwapCellAtIndex:control.tag-10000 withCellAtIndex:otherCell.tag-10000];
@@ -364,6 +390,9 @@
                     
                 }];
                 break;
+            }else
+            {
+                otherCell.layer.borderColor = [UIColor grayColor].CGColor;
             }
             
         }
@@ -374,69 +403,19 @@
                 control.frame = control.originalRect;
                 
                 
-                //draggingEnabled = NO;
+                
                 
             } completion:^(BOOL finished){
                 
-                //[self performSelector:@selector(EnableDragging) withObject:nil afterDelay:1.0];
+               
                
                 
             }];
         }
 
     }
-}
-/*-(void)DetectDragIntersection:(ThumbnailCell*)control
-{
-    BOOL intersectionDetected = NO;
-    UIScrollView *scroll = [self getScrollView];
-    for (ThumbnailCell *otherCell in scroll.subviews)
-    {
-        if (otherCell == control)
-            continue;
-        CGRect absoluteOtherViewRect  = otherCell.frame; // Calculate
-        if (CGRectIntersectsRect(control.frame, absoluteOtherViewRect))
-        {
-            // Collision!
-            intersectionDetected = YES;
-            [UIView animateWithDuration:0.2 animations:^(void){
-                
-                otherCell.frame = control.originalRect;
-                
-                control.frame = otherCell.originalRect;
-                
-                control.originalRect = control.frame;
-                otherCell.originalRect = otherCell.frame;
-                
-                
-                //draggingEnabled = NO;
-                
-            } completion:^(BOOL finished){
-                
-                //[self performSelector:@selector(EnableDragging) withObject:nil afterDelay:1.0];
-                
-            }];
-            break;
-        }
-        
-    }
-    if(intersectionDetected == NO)
-    {
-        [UIView animateWithDuration:0.2 animations:^(void){
-            
-            control.frame = control.originalRect;
-            
-            
-            //draggingEnabled = NO;
-            
-        } completion:^(BOOL finished){
-            
-            //[self performSelector:@selector(EnableDragging) withObject:nil afterDelay:1.0];
-            
-        }];
-    }
-
 }*/
+
 -(void)LoadNextPage:(ThumbnailList*)list
 {
     
@@ -454,7 +433,7 @@
     int x = margin;
     int y = 20;
     subviewLayed = YES;
-    UIScrollView *scroll = (UIScrollView*)[list viewWithTag:SCROLL_VIEW_TAG];
+    MyScrollView *scroll = (MyScrollView*)[list viewWithTag:SCROLL_VIEW_TAG];
     NSArray *viewsToRemove = [scroll subviews];
     for (UIView *v in viewsToRemove) {
         if((v.tag>=10000)&&(v.tag<=(numberOfCells+10000)))
@@ -470,8 +449,7 @@
         {
             ThumbnailCell *cell = [_DataSource thumbnailList:list cellForIndex:i];
             
-            [cell addTarget:list action:@selector(ThumbSelected:withEvent:) forControlEvents:UIControlEventTouchUpInside];
-            //uicontrolev
+            //[cell addTarget:list action:@selector(ThumbSelected:withEvent:) forControlEvents:UIControlEventTouchUpInside];
             // Check if ThumbCells reached the bottom
             // if reached the bottom reset y and increase x
             
@@ -511,9 +489,13 @@
             cell.frame = CGRectMake(x, y, cellHeight, cellHeight);
             cell.originalRect = CGRectMake(x, y, cellHeight, cellHeight);
             cell.tag = i+10000;
+            cell.ThumbnailCellDelegate = self;
             
-            //add drag and drop event
-            [cell addTarget:self action:@selector(CellMoved:withEvent:) forControlEvents:UIControlEventTouchDragInside];
+            //add drag and drop events
+            UILongPressGestureRecognizer *longTapGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(CellMoved:)];
+            [longTapGesture setNumberOfTouchesRequired:1];
+            //[cell addTarget:self action:@selector(CellMoved:withEvent:) forControlEvents:UIControlEventTouchDragInside];
+            [cell addGestureRecognizer:longTapGesture];
             
             //add cell to scrollView
             [scroll addSubview:cell];
@@ -544,47 +526,193 @@
     
     
 }
-- (IBAction) CellMoved:(id) sender withEvent:(UIEvent *) event
+/*-(void)CellMoved:(id)sender withEvent:(UIEvent*)event
+{
+    MyScrollView *scroll = (MyScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
+    
+    ThumbnailCell *control = (ThumbnailCell*)sender;
+    CGPoint point = [[[event allTouches] anyObject] locationInView:scroll];
+    control.center = point;
+    CGPoint pointInSelf = [[[event allTouches] anyObject] locationInView:self];
+    scroll.delaysContentTouches = NO;
+    [scroll setCanCancelContentTouches:NO];
+    scroll.scrollEnabled = NO;
+    if((pointInSelf.x+150)>self.frame.size.width && currentPage!=pageCount-1)
+    {
+        
+        [scroll bringSubviewToFront:control];
+        [scroll scrollRectToVisible:CGRectMake(control.center.x+150, control.frame.origin.y, control.frame.size.width, control.frame.size.height) animated:YES];
+        //control.center = CGPointMake(point.x+100, point.y);
+        
+        
+    }else if((pointInSelf.x-150)<0 && currentPage!=0)
+    {
+        
+        [scroll bringSubviewToFront:control];
+        [scroll scrollRectToVisible:CGRectMake(control.center.x-150, control.frame.origin.y, control.frame.size.width, control.frame.size.height) animated:YES];
+        //control.center = CGPointMake(point.x-100, point.y);
+    }
+    
+    
+    
+    
+    BOOL intersectionDetected = NO;
+    for (ThumbnailCell *otherCell in scroll.subviews)
+    {
+        if (otherCell == control)
+            continue;
+        CGRect absoluteOtherViewRect  = otherCell.frame; // Calculate
+        if (CGRectIntersectsRect(control.frame, absoluteOtherViewRect) && intersectionDetected==NO)
+        {
+            // Collision!
+            intersectionDetected = YES;
+            
+            
+            otherCell.layer.borderColor = [UIColor blueColor].CGColor;
+            
+        }else
+        {
+            otherCell.layer.borderColor = [UIColor grayColor].CGColor;
+        }
+        
+    }
+
+}*/
+- (IBAction) CellMoved:(UIGestureRecognizer*) sender
 {
     if(editEnabled == YES)
     {
+        MyScrollView *scroll = (MyScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
         
-        UIScrollView *scroll = (UIScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
-        CGPoint point = [[[event allTouches] anyObject] locationInView:scroll];
-        ThumbnailCell *control = sender;
+        ThumbnailCell *control = (ThumbnailCell*)[sender view];
+        CGPoint point = [sender locationInView:scroll];
         control.center = point;
-        CGPoint pointInSelf = [[[event allTouches] anyObject] locationInView:self];
-        if((pointInSelf.x+40)>self.frame.size.width-20 && currentPage!=pageCount-1)
+        CGPoint pointInSelf = [sender locationInView:self];
+        scroll.delaysContentTouches = NO;
+        [scroll setCanCancelContentTouches:NO];
+        scroll.scrollEnabled = NO;
+        if(sender.state != UIGestureRecognizerStateBegan)
         {
-        
-            //[self performSelectorInBackground:@selector(MoveToNextPage) withObject:nil];
-        
-            [scroll bringSubviewToFront:control];
-             [scroll setContentOffset:CGPointMake(scroll.contentOffset.x+self.frame.size.width-100, 0) animated:YES];
-            control.center = CGPointMake(point.x+self.frame.size.width-100, point.y);
+           
+            if((pointInSelf.x+40)>self.frame.size.width && currentPage<=pageCount-1)
+            {
+                
+                [scroll bringSubviewToFront:control];
+                 [scroll scrollRectToVisible:CGRectMake(control.center.x+150, control.frame.origin.y, control.frame.size.width, control.frame.size.height) animated:YES];
+                //control.center = CGPointMake(point.x+100, point.y);
+                
+                
+            }else if((pointInSelf.x-40)<0 && currentPage>=0)
+            {
+                
+                [scroll bringSubviewToFront:control];
+                 [scroll scrollRectToVisible:CGRectMake(control.center.x-150, control.frame.origin.y, control.frame.size.width, control.frame.size.height) animated:YES];
+                //control.center = CGPointMake(point.x-100, point.y);
+            }
+
+
             
             
-        }else if((pointInSelf.x-40)<20 && currentPage!=0)
-        {
-            [scroll bringSubviewToFront:control];
-            [scroll setContentOffset:CGPointMake(scroll.contentOffset.x-self.frame.size.width+100, 0) animated:YES];
-            control.center = CGPointMake(point.x-self.frame.size.width+100, point.y);
+            BOOL intersectionDetected = NO;
+            for (ThumbnailCell *otherCell in scroll.subviews)
+            {
+                if (otherCell == control)
+                    continue;
+                CGRect absoluteOtherViewRect  = otherCell.frame; // Calculate
+                if (CGRectIntersectsRect(control.frame, absoluteOtherViewRect) && intersectionDetected==NO)
+                {
+                    // Collision!
+                    intersectionDetected = YES;
+                    
+                        
+                    otherCell.layer.borderColor = [UIColor blueColor].CGColor;
+                    
+                }else
+                {
+                    otherCell.layer.borderColor = [UIColor grayColor].CGColor;
+                }
+                
+            }
         }
         
+        if(sender.state == UIGestureRecognizerStateEnded)
+        {
+            BOOL intersectionDetected = NO;
+            MyScrollView *scroll = [self getScrollView];
+            scroll.delaysContentTouches = YES;
+            [scroll setCanCancelContentTouches:YES];
+            scroll.scrollEnabled = YES;
+            [self scrollToCurrentPage];
+            for (ThumbnailCell *otherCell in scroll.subviews)
+            {
+                if (otherCell == control)
+                    continue;
+                CGRect absoluteOtherViewRect  = otherCell.frame; // Calculate
+                if (CGRectIntersectsRect(control.frame, absoluteOtherViewRect))
+                {
+                    // Collision!
+                    intersectionDetected = YES;
+                    [UIView animateWithDuration:0.2 animations:^(void){
+                        
+                        //swap rectangles
+                        otherCell.frame = control.originalRect;
+                        
+                        control.frame = otherCell.originalRect;
+                        
+                        
+                        
+                        //swap tags
+                        int controlTag = control.tag;
+                        control.tag = otherCell.tag;
+                        
+                        otherCell.tag = controlTag;
+                        
+                        
+                    } completion:^(BOOL finished){
+                        otherCell.layer.borderColor = [UIColor grayColor].CGColor;
+                        control.originalRect = control.frame;
+                        otherCell.originalRect = otherCell.frame;
+                        if([_DataSource respondsToSelector:@selector(thumbnailList:didSwapCellAtIndex:withCellAtIndex:)])
+                        {
+                            [_DataSource thumbnailList:self didSwapCellAtIndex:control.tag-10000 withCellAtIndex:otherCell.tag-10000];
+                        }
+                        
+                    }];
+                    break;
+                }
+                otherCell.layer.borderColor = [UIColor grayColor].CGColor;
+            }
+            if(intersectionDetected == NO)
+            {
+                [UIView animateWithDuration:0.2 animations:^(void){
+                    
+                    control.frame = control.originalRect;
+                    
+                    
+                    
+                    
+                } completion:^(BOOL finished){
+                    
+                    
+                    
+                    
+                }];
+            }
+
+        }
     }
 }
 -(void)MoveToNextPage
 {
-    UIScrollView *scroll = [self getScrollView];
+    MyScrollView *scroll = [self getScrollView];
     [scroll setContentOffset:CGPointMake(scroll.contentOffset.x+self.frame.size.width, scroll.contentOffset.y) animated:YES];
 }
 -(void)EnableDragging
 {
     draggingEnabled = YES;
 }
-- (void)scrollViewDidScroll:(UIScrollView *)sender {
-    // Update the page when more than 50% of the previous/next page is visible
-        // scrolling is caused by user
+- (void)scrollViewDidScroll:(MyScrollView *)sender {
+    
         CGFloat pageWidth = sender.frame.size.width;
         int page = floor((sender.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
         currentPage = (page % pageCount);
@@ -603,17 +731,5 @@
     [LeftBtn setImage:image forState:UIControlStateNormal];
 }
 
--(void)AddButtonTouched{
-    if([_DataSource respondsToSelector:@selector(AddButtonTouched)])
-    {
-        [_DataSource AddButtonTouched];
-    }
-}
--(void)RearrangeButtonTouched
-{
-    if([_DataSource respondsToSelector:@selector(RearrangeButtonTouched)])
-    {
-        [_DataSource RearrangeButtonTouched];
-    }
-}
+
 @end

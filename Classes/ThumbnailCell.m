@@ -11,6 +11,7 @@
 #import "EGOImageView.h"
 @implementation ThumbnailCell
 @synthesize originalRect ;
+@synthesize ThumbnailCellDelegate;
 - (id)initWithFrame:(CGRect)frame withImage:(NSString*)img
 {
     self = [super initWithFrame:frame];
@@ -20,10 +21,18 @@
         //self.layer.cornerRadius = 10;
         //self.imageView.contentMode = UIViewContentModeScaleToFill;
         self.layer.borderColor = [UIColor grayColor].CGColor;
-        self.layer.borderWidth = 2.0f;
+        self.layer.borderWidth = 3.0f;
         self.exclusiveTouch = YES;
     }
     return self;
+}
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+    if([self.ThumbnailCellDelegate respondsToSelector:@selector(CellTouched:)])
+    {
+        [self.ThumbnailCellDelegate CellTouched:self];
+    }
 }
 
 -(id)initWithFrame:(CGRect)frame withImageFromUrl:(NSURL*)imgurl withPlaceHolderImage:(NSString*)img

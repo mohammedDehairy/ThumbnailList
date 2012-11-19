@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "ThumbnailListDataSourceDelegate.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ThumbnailCellDelegate.h"
 #define RIGHT_NAV_TAG 88
 #define SCROLL_VIEW_TAG 1
 #define PAGE_NO_LABEL_TAG 33
 #define LEFT_NAV_TAG 55
-@interface ThumbnailList : UIView<UIScrollViewDelegate>
+@interface ThumbnailList : UIView<UIScrollViewDelegate,ThumbnailCellDelegate>
 {
 @private
     int minPageNo;
@@ -32,6 +33,7 @@
     BOOL subviewLayed;
     int LastnumberOfCellsInPage;
     BOOL draggingEnabled;
+
 }
 @property(nonatomic)BOOL EnableEdit;
 @property(nonatomic,retain)id<ThumbnailListDataSourceDelegate> DataSource;

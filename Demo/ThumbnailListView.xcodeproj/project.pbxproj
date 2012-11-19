@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E0AD3B1165A5FAB007D5917 /* MyScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0AD3B0165A5FAB007D5917 /* MyScrollView.m */; };
 		6E7C4917164D231E009404B5 /* ThumbnailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7C4913164D231E009404B5 /* ThumbnailCell.m */; };
 		6E7C4918164D231E009404B5 /* ThumbnailList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7C4915164D231E009404B5 /* ThumbnailList.m */; };
 		6E7C491E164D2359009404B5 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7C491A164D2359009404B5 /* EGOCache.m */; };
@@ -42,6 +43,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E0AD3AF165A5FAB007D5917 /* MyScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyScrollView.h; sourceTree = "<group>"; };
+		6E0AD3B0165A5FAB007D5917 /* MyScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyScrollView.m; sourceTree = "<group>"; };
 		6E7C4912164D231E009404B5 /* ThumbnailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailCell.h; sourceTree = "<group>"; };
 		6E7C4913164D231E009404B5 /* ThumbnailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailCell.m; sourceTree = "<group>"; };
 		6E7C4914164D231E009404B5 /* ThumbnailList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailList.h; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 		6E26C8C816359F9A00BA2033 /* ThumbnailList View */ = {
 			isa = PBXGroup;
 			children = (
+				6E0AD3AF165A5FAB007D5917 /* MyScrollView.h */,
+				6E0AD3B0165A5FAB007D5917 /* MyScrollView.m */,
 				6E7C491F164D2407009404B5 /* EGOImageButton */,
 				6E7C4922164D2407009404B5 /* EGOImageLoader */,
 				6E7C4927164D2407009404B5 /* EGOImageView */,
@@ -325,6 +330,7 @@
 				6E7C492B164D2407009404B5 /* EGOImageLoadConnection.m in Sources */,
 				6E7C492C164D2407009404B5 /* EGOImageLoader.m in Sources */,
 				6E7C492D164D2407009404B5 /* EGOImageView.m in Sources */,
+				6E0AD3B1165A5FAB007D5917 /* MyScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
