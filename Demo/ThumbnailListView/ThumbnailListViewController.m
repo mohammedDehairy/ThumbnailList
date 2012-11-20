@@ -19,7 +19,6 @@
     [super viewDidLoad];
     index1 = 0;
     ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) withDataSource:self];
-    list.tag = 101;
     list.tag = 11;
     [self.view addSubview:list];
 	

@@ -49,7 +49,8 @@
         // Initialization code
         DataSource = datasource;
         self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
-        MyScrollView *scroll = [[MyScrollView alloc] initWithFrame:CGRectMake(6, 0, self.frame.size.width, self.frame.size.height)];
+        self.autoresizesSubviews = YES;
+        MyScrollView *scroll = [[MyScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         PagesLoaded = [[[NSMutableArray alloc] init] retain];
         scroll.tag = SCROLL_VIEW_TAG;
         scroll.pagingEnabled = YES;
@@ -229,7 +230,7 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    
+     [self orientationChanged:[[UIDevice currentDevice] orientation]];
     
 }
 -(void)orientationChanged:(UIInterfaceOrientation)orientaion;
@@ -523,7 +524,6 @@
     
     // set scrollView content size
     scroll.contentSize = CGSizeMake(width, self.frame.size.height);
-    
     
     
     
