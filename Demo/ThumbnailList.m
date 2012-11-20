@@ -11,7 +11,6 @@
 #import "MyScrollView.h"
 
 @implementation ThumbnailList
-@synthesize DataSource = _DataSource;
 @synthesize cellSize = _cellSize;
 @synthesize LongPressToEditEnabled = _LongPressToEditEnabled;
 -(BOOL)getEnableEdit
@@ -43,11 +42,13 @@
         }
     }
 }
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame withDataSource:(id<ThumbnailListDataSourceDelegate>) datasource
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        DataSource = datasource;
+        self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
         MyScrollView *scroll = [[MyScrollView alloc] initWithFrame:CGRectMake(6, 0, self.frame.size.width, self.frame.size.height)];
         PagesLoaded = [[[NSMutableArray alloc] init] retain];
         scroll.tag = SCROLL_VIEW_TAG;
@@ -76,6 +77,7 @@
         draggingEnabled = YES;
         editEnabled = NO;
         subviewLayed = NO;
+        [self ReloadData];
         
     }
     return self;
@@ -214,21 +216,15 @@
 
 -(void)ReloadData
 {
-    if([_DataSource respondsToSelector:@selector(numberOfcellsForthumbanilList:)])
+    if([DataSource respondsToSelector:@selector(numberOfcellsForthumbanilList:)])
     {
-        numberOfCells = [_DataSource numberOfcellsForthumbanilList:self];
+        numberOfCells = [DataSource numberOfcellsForthumbanilList:self];
     }else
     {
         numberOfCells = 0;
     }
     
-    
-    NSInvocationOperation *op = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(Load:) object:self] autorelease];
-    if(!queue)
-    {
-        queue = [[NSOperationQueue alloc] init];
-    }
-    [queue addOperation:op];
+    [self Load];
 }
 -(void)layoutSubviews
 {
@@ -341,12 +337,15 @@
 -(void)willMoveToSuperview:(UIView *)newSuperview
 {
     [super willMoveToSuperview:newSuperview];
-    if(newSuperview)
-    {
+
+}
+-(void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+
         
         
-        [self ReloadData];
-    }
+    
 }
 
 -(MyScrollView*)getScrollView
@@ -368,9 +367,9 @@
     {
         
         int index = control.tag-10000;
-        if([_DataSource respondsToSelector:@selector(thumbnailList:didSelectThumbAtIndex:)])
+        if([DataSource respondsToSelector:@selector(thumbnailList:didSelectThumbAtIndex:)])
         {
-            [_DataSource thumbnailList:self didSelectThumbAtIndex:index];
+            [DataSource thumbnailList:self didSelectThumbAtIndex:index];
         }
     }
 
@@ -402,9 +401,9 @@
            
        }
        [UIView commitAnimations];
-       if([self.DataSource respondsToSelector:@selector(thumbnailList:didDeleteCellAtIndex:)] )
+       if([DataSource respondsToSelector:@selector(thumbnailList:didDeleteCellAtIndex:)] )
        {
-           [self.DataSource thumbnailList:self didDeleteCellAtIndex:deletedTag];
+           [DataSource thumbnailList:self didDeleteCellAtIndex:deletedTag];
        }
 
    }
@@ -418,7 +417,7 @@
     DeletedCell = cell;
 }
 
--(void)Load:(ThumbnailList*)list
+-(void)Load
 {
     
     
@@ -435,7 +434,7 @@
     int x = margin;
     int y = 20;
     subviewLayed = YES;
-    MyScrollView *scroll = (MyScrollView*)[list viewWithTag:SCROLL_VIEW_TAG];
+    MyScrollView *scroll = (MyScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
     NSArray *viewsToRemove = [scroll subviews];
     for (UIView *v in viewsToRemove) {
         if((v.tag>=10000)&&(v.tag<=(numberOfCells+10000)))
@@ -447,9 +446,9 @@
     int numberOfCellsInPage = 0;
     for(int i=0;i<numberOfCells;i++)
     {
-        if([self.DataSource respondsToSelector:@selector(thumbnailList:cellForIndex:)])
+        if([DataSource respondsToSelector:@selector(thumbnailList:cellForIndex:)])
         {
-            ThumbnailCell *cell = [_DataSource thumbnailList:list cellForIndex:i];
+            ThumbnailCell *cell = [DataSource thumbnailList:self cellForIndex:i];
             
 
             // Check if ThumbCells reached the full width
@@ -465,7 +464,7 @@
                     
                 }
                 
-            }else //if((y+cellHeight+margin)<=self.frame.size.height-20)
+            }else
             {
                 numberOfCellsInPageBuffer++;
                 x+=cellWidth +margin;
@@ -473,6 +472,7 @@
                 {
                     if((y+cellHeight+margin)<=self.frame.size.height-100)
                     {
+                        
                         y += cellHeight + margin;
                         x -= self.frame.size.width-margin;
                     }else
@@ -485,7 +485,6 @@
                 }
                 
             }
-            
             
             
             //set cell size
@@ -627,9 +626,9 @@
                     } completion:^(BOOL finished){
                         otherCell.layer.borderColor = [UIColor grayColor].CGColor;
                         
-                        if([_DataSource respondsToSelector:@selector(thumbnailList:didSwapCellAtIndex:withCellAtIndex:)])
+                        if([DataSource respondsToSelector:@selector(thumbnailList:didSwapCellAtIndex:withCellAtIndex:)])
                         {
-                            [_DataSource thumbnailList:self didSwapCellAtIndex:control.tag-10000 withCellAtIndex:otherCell.tag-10000];
+                            [DataSource thumbnailList:self didSwapCellAtIndex:control.tag-10000 withCellAtIndex:otherCell.tag-10000];
                         }
                         
                     }];

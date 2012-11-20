@@ -35,12 +35,13 @@
     BOOL draggingEnabled;
     BOOL editEnabled;
     ThumbnailCell *DeletedCell;
+    id<ThumbnailListDataSourceDelegate> DataSource;
 }
-@property(nonatomic,retain)id<ThumbnailListDataSourceDelegate> DataSource;
 @property(nonatomic)CGSize cellSize;
 @property(nonatomic)BOOL LongPressToEditEnabled;
 -(void)ReloadData;
 -(void)orientationChanged:(UIInterfaceOrientation)orientaion;
 -(void)setEnableEdit:(BOOL)value;
 -(BOOL)getEnableEdit;
+- (id)initWithFrame:(CGRect)frame withDataSource:(id<ThumbnailListDataSourceDelegate>) datasource;
 @end
