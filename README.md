@@ -12,7 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 installation
 
-1. Copy the classes folder into your project.
+1.Copy the classes folder into your project.
 
 2.add CoreGraphics.framework to you project.
 
