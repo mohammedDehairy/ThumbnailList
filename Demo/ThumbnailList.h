@@ -38,6 +38,7 @@
 }
 @property(nonatomic,retain)id<ThumbnailListDataSourceDelegate> DataSource;
 @property(nonatomic)CGSize cellSize;
+@property(nonatomic)BOOL LongPressToEditEnabled;
 -(void)ReloadData;
 -(void)orientationChanged:(UIInterfaceOrientation)orientaion;
 -(void)setEnableEdit:(BOOL)value;

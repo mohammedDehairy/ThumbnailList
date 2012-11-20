@@ -13,6 +13,7 @@
 @implementation ThumbnailList
 @synthesize DataSource = _DataSource;
 @synthesize cellSize = _cellSize;
+@synthesize LongPressToEditEnabled = _LongPressToEditEnabled;
 -(BOOL)getEnableEdit
 {
     return editEnabled;
@@ -63,7 +64,7 @@
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ToggleEditMode:)];
         
         [self addGestureRecognizer:tapGestureRecognizer];
-        
+        _LongPressToEditEnabled = YES;
         _cellSize = CGSizeMake(70, 50);
         minPageNo = 1;
         minCellMargin = 20;
@@ -531,7 +532,8 @@
 
 - (IBAction) CellMoved:(UIGestureRecognizer*) sender
 {
-    
+    if(_LongPressToEditEnabled==YES || editEnabled==YES)
+    {
         MyScrollView *scroll = (MyScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
         
         ThumbnailCell *control = (ThumbnailCell*)[sender view];
@@ -653,7 +655,7 @@
             }
 
         }
-    
+    }
 }
 -(void)MoveToNextPage
 {
