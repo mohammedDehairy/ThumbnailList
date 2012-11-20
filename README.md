@@ -32,7 +32,7 @@ ThumbnailListDataSourceDelegate delegate Method.// OPTIONAL
 
 ThumbnailListDataSourceDelegate delegate Method. //OPTIONAL
 
-6.handle -(void)thumbnailList:(ThumbnailList *) list didSelectThumbAtIndex:(int)index; // A MUST
+6.handle -(void)thumbnailList:(ThumbnailList *) list didSelectThumbAtIndex:(int)index; // OPTIONAL
 
 7.handle  -(int)numberOfcellsForthumbanilList:(ThumbnailList *) list ; to return total number of cells to view //A MUST
 
