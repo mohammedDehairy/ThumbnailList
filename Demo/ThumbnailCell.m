@@ -102,23 +102,7 @@
     }
 }
 
--(id)initWithFrame:(CGRect)frame withImageFromUrl:(NSURL*)imgurl withPlaceHolderImage:(NSString*)img
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        EGOImageButton *imageBtn = [[EGOImageButton alloc] initWithPlaceholderImage:[UIImage imageNamed:img] delegate:self];
-        
-        [imageBtn setImage:[[UIImage imageNamed:img] stretchableImageWithLeftCapWidth:0 topCapHeight:0] forState:UIControlStateNormal] ;
-        imageBtn.tag = IMAGE_BTN_TAG;
-        
-        [self addSubview:imageBtn];
 
-        self.layer.borderColor = [UIColor grayColor].CGColor;
-        self.layer.borderWidth = 2.0f;
-    }
-    return self;
-}
 -(void)willMoveToSuperview:(UIView *)newSuperview
 {
     if(!newSuperview) {
