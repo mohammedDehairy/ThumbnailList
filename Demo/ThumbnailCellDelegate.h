@@ -10,4 +10,5 @@
 
 @protocol ThumbnailCellDelegate <NSObject>
 -(void)CellTouched:(id)sender;
+-(void)DeleteBtnTouchedForCell:(id)cell;
 @end

@@ -18,15 +18,15 @@
 {
     [super viewDidLoad];
     index1 = 0;
-    ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 350)];
+    ThumbnailList *list = [[ThumbnailList alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     list.tag = 101;
     list.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
     list.autoresizesSubviews = YES;
     list.tag = 11;
     list.DataSource = self;
     [self.view addSubview:list];
-    UIBarButtonItem *EditBtn = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonSystemItemEdit target:self action:@selector(Edit)];
-    self.navigationItem.rightBarButtonItem = EditBtn;
+   // UIBarButtonItem *EditBtn = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonSystemItemEdit target:self action:@selector(Edit)];
+    //self.navigationItem.rightBarButtonItem = EditBtn;
 	
 }
 -(void)Edit
@@ -69,6 +69,10 @@
 -(void)thumbnailList:(ThumbnailList *)list didSwapCellAtIndex:(int)sourceIndex withCellAtIndex:(int)destinationIndex
 {
     //swap objects in data source and database
+}
+-(void)thumbnailList:(ThumbnailList *)list didDeleteCellAtIndex:(int)index
+{
+    //cell deleted
 }
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {

@@ -14,4 +14,5 @@
 -(int)numberOfcellsForthumbanilList:(ThumbnailList *) list ;
 -(void)thumbnailList:(ThumbnailList *) list didSelectThumbAtIndex:(int)index;
 -(void)thumbnailList:(ThumbnailList*) list didSwapCellAtIndex:(int) sourceIndex withCellAtIndex:(int) destinationIndex;
+-(void)thumbnailList:(ThumbnailList*) list didDeleteCellAtIndex:(int) index;
 @end

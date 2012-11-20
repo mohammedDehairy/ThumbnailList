@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6E0AD3B1165A5FAB007D5917 /* MyScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0AD3B0165A5FAB007D5917 /* MyScrollView.m */; };
-		6E7C4917164D231E009404B5 /* ThumbnailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7C4913164D231E009404B5 /* ThumbnailCell.m */; };
+		6E4A5460165B81BD00C237C3 /* Close1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E4A545F165B81BD00C237C3 /* Close1.png */; };
+		6E4A5464165B8A0F00C237C3 /* ThumbnailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4A5463165B8A0F00C237C3 /* ThumbnailCell.m */; };
 		6E7C4918164D231E009404B5 /* ThumbnailList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7C4915164D231E009404B5 /* ThumbnailList.m */; };
 		6E7C491E164D2359009404B5 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7C491A164D2359009404B5 /* EGOCache.m */; };
 		6E7C492A164D2407009404B5 /* EGOImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7C4921164D2407009404B5 /* EGOImageButton.m */; };
@@ -45,8 +46,9 @@
 /* Begin PBXFileReference section */
 		6E0AD3AF165A5FAB007D5917 /* MyScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyScrollView.h; sourceTree = "<group>"; };
 		6E0AD3B0165A5FAB007D5917 /* MyScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyScrollView.m; sourceTree = "<group>"; };
-		6E7C4912164D231E009404B5 /* ThumbnailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailCell.h; sourceTree = "<group>"; };
-		6E7C4913164D231E009404B5 /* ThumbnailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailCell.m; sourceTree = "<group>"; };
+		6E4A545F165B81BD00C237C3 /* Close1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Close1.png; sourceTree = "<group>"; };
+		6E4A5462165B8A0F00C237C3 /* ThumbnailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailCell.h; sourceTree = "<group>"; };
+		6E4A5463165B8A0F00C237C3 /* ThumbnailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailCell.m; sourceTree = "<group>"; };
 		6E7C4914164D231E009404B5 /* ThumbnailList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailList.h; sourceTree = "<group>"; };
 		6E7C4915164D231E009404B5 /* ThumbnailList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailList.m; sourceTree = "<group>"; };
 		6E7C4916164D231E009404B5 /* ThumbnailListDataSourceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailListDataSourceDelegate.h; sourceTree = "<group>"; };
@@ -109,6 +111,8 @@
 		6E26C8C816359F9A00BA2033 /* ThumbnailList View */ = {
 			isa = PBXGroup;
 			children = (
+				6E4A5462165B8A0F00C237C3 /* ThumbnailCell.h */,
+				6E4A5463165B8A0F00C237C3 /* ThumbnailCell.m */,
 				6E0AD3AF165A5FAB007D5917 /* MyScrollView.h */,
 				6E0AD3B0165A5FAB007D5917 /* MyScrollView.m */,
 				6E7C491F164D2407009404B5 /* EGOImageButton */,
@@ -116,8 +120,6 @@
 				6E7C4927164D2407009404B5 /* EGOImageView */,
 				6E7C4919164D2359009404B5 /* EGOCache.h */,
 				6E7C491A164D2359009404B5 /* EGOCache.m */,
-				6E7C4912164D231E009404B5 /* ThumbnailCell.h */,
-				6E7C4913164D231E009404B5 /* ThumbnailCell.m */,
 				6E7C4914164D231E009404B5 /* ThumbnailList.h */,
 				6E7C4915164D231E009404B5 /* ThumbnailList.m */,
 				6E7C4916164D231E009404B5 /* ThumbnailListDataSourceDelegate.h */,
@@ -229,6 +231,7 @@
 		6EA454AA1630AAF400505CAE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6E4A545F165B81BD00C237C3 /* Close1.png */,
 				6EFF9E8A165181D9002EEE98 /* alwatan0.png */,
 				6EFF9E88165181C1002EEE98 /* alwatan1.png */,
 				6EFF9E8616518190002EEE98 /* alwatan2.png */,
@@ -310,6 +313,7 @@
 				6EFF9E8716518190002EEE98 /* alwatan2.png in Resources */,
 				6EFF9E89165181C1002EEE98 /* alwatan1.png in Resources */,
 				6EFF9E8B165181D9002EEE98 /* alwatan0.png in Resources */,
+				6E4A5460165B81BD00C237C3 /* Close1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,7 +327,6 @@
 				6EA454871630A87900505CAE /* main.m in Sources */,
 				6EA4548B1630A87900505CAE /* ThumbnailListAppDelegate.m in Sources */,
 				6EA454941630A87900505CAE /* ThumbnailListViewController.m in Sources */,
-				6E7C4917164D231E009404B5 /* ThumbnailCell.m in Sources */,
 				6E7C4918164D231E009404B5 /* ThumbnailList.m in Sources */,
 				6E7C491E164D2359009404B5 /* EGOCache.m in Sources */,
 				6E7C492A164D2407009404B5 /* EGOImageButton.m in Sources */,
@@ -331,6 +334,7 @@
 				6E7C492C164D2407009404B5 /* EGOImageLoader.m in Sources */,
 				6E7C492D164D2407009404B5 /* EGOImageView.m in Sources */,
 				6E0AD3B1165A5FAB007D5917 /* MyScrollView.m in Sources */,
+				6E4A5464165B8A0F00C237C3 /* ThumbnailCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

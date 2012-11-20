@@ -9,10 +9,40 @@
 #import "ThumbnailList.h"
 #import "ThumbnailCell.h"
 #import "MyScrollView.h"
+
 @implementation ThumbnailList
 @synthesize DataSource = _DataSource;
 @synthesize cellSize = _cellSize;
-@synthesize EnableEdit = editEnabled;
+-(BOOL)getEnableEdit
+{
+    return editEnabled;
+}
+-(void)AddDeleteBtnToCell:(ThumbnailCell*)cell
+{
+    
+}
+-(void)setEnableEdit:(BOOL)value
+{
+    editEnabled = value;
+    if(value==YES)
+    {
+        for(ThumbnailCell *cell in [self getScrollView].subviews)
+        {
+            [cell EnterEditMode];
+           
+            
+        }
+    }else
+    {
+        for(ThumbnailCell *cell in [self getScrollView].subviews)
+        {
+            // starting point
+            
+            [cell ExitEditMode];
+
+        }
+    }
+}
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -30,6 +60,11 @@
         scroll.delegate = self;
         
         [self addSubview:scroll];
+        
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ToggleEditMode:)];
+        
+        [self addGestureRecognizer:tapGestureRecognizer];
+        
         _cellSize = CGSizeMake(70, 50);
         minPageNo = 1;
         minCellMargin = 20;
@@ -44,6 +79,13 @@
         
     }
     return self;
+}
+-(void)ToggleEditMode:(UIGestureRecognizer*)gesture
+{
+    if(editEnabled==YES)
+    {
+        [self setEnableEdit:NO];
+    }
 }
 -(void)navigateRight:(id)sender
 {
@@ -305,9 +347,9 @@
         
         
         [self ReloadData];
-        
     }
 }
+
 -(MyScrollView*)getScrollView
 {
     @synchronized(@"scroll")
@@ -339,6 +381,47 @@
 
 }
 
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+   if(buttonIndex==1 && DeletedCell)
+   {
+       __block CGRect LastCellFrame = DeletedCell.frame;
+       int deletedTag = DeletedCell.tag;
+       [DeletedCell removeFromSuperview];
+       [DeletedCell release];
+       DeletedCell = nil;
+       [UIView beginAnimations:@"tilescleared" context:nil];
+       [UIView setAnimationDelegate: self];
+       [UIView setAnimationDuration:0.5];
+       for(ThumbnailCell *cell in [self getScrollView].subviews)
+       {
+           if(cell.tag>deletedTag&&cell.tag<numberOfCells+10000)
+           {
+               
+               CGRect bufferFrame = cell.frame;
+               cell.frame = LastCellFrame;
+               cell.originalRect = LastCellFrame;
+               LastCellFrame = bufferFrame;
+               
+           }
+           
+       }
+       [UIView commitAnimations];
+       if([self.DataSource respondsToSelector:@selector(thumbnailList:didDeleteCellAtIndex:)] )
+       {
+           [self.DataSource thumbnailList:self didDeleteCellAtIndex:deletedTag];
+       }
+
+   }
+}
+-(void)DeleteBtnTouchedForCell:(id)cell
+{
+    UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"" message:@"Are you sure you want to unsubscribe this newspaper " delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"ok", nil];
+    [deleteAlert show];
+    
+    
+    DeletedCell = cell;
+}
 
 -(void)LoadNextPage:(ThumbnailList*)list
 {
@@ -453,8 +536,7 @@
 
 - (IBAction) CellMoved:(UIGestureRecognizer*) sender
 {
-    if(editEnabled == YES)
-    {
+    
         MyScrollView *scroll = (MyScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
         
         ThumbnailCell *control = (ThumbnailCell*)[sender view];
@@ -506,6 +588,9 @@
                 }
                 
             }
+        }else
+        {
+            [self setEnableEdit:YES];
         }
         
         if(sender.state == UIGestureRecognizerStateEnded)
@@ -573,7 +658,7 @@
             }
 
         }
-    }
+    
 }
 -(void)MoveToNextPage
 {
