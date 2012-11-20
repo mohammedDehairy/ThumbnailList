@@ -24,6 +24,10 @@ Use
 
 3.to enter edit mode call -(void)setEnableEdit:(BOOL)value method of the thumbanilListView instance. //OPTIONAL
 
+Note : by default a long press on an icon makes the view enter edit mode and a tap exits edit mode 
+
+to disable this behavior set LongPressToEditEnabled property of thumbnailListView instance to NO
+
 4.handle cell rearrange in -(void)thumbnailList:(ThumbnailList*) list didSwapCellAtIndex:(int) sourceIndex withCellAtIndex:(int) destinationIndex;
 
 ThumbnailListDataSourceDelegate delegate Method.// OPTIONAL
