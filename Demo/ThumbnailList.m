@@ -36,7 +36,6 @@
     {
         for(ThumbnailCell *cell in [self getScrollView].subviews)
         {
-            // starting point
             
             [cell ExitEditMode];
 
@@ -223,7 +222,7 @@
     }
     
     
-    NSInvocationOperation *op = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(LoadNextPage:) object:self] autorelease];
+    NSInvocationOperation *op = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(Load:) object:self] autorelease];
     if(!queue)
     {
         queue = [[NSOperationQueue alloc] init];
@@ -373,10 +372,6 @@
         {
             [_DataSource thumbnailList:self didSelectThumbAtIndex:index];
         }
-    }else
-    {
-        
-                
     }
 
 }
@@ -423,7 +418,7 @@
     DeletedCell = cell;
 }
 
--(void)LoadNextPage:(ThumbnailList*)list
+-(void)Load:(ThumbnailList*)list
 {
     
     
@@ -457,8 +452,9 @@
             ThumbnailCell *cell = [_DataSource thumbnailList:list cellForIndex:i];
             
 
-            // Check if ThumbCells reached the bottom
-            // if reached the bottom reset y and increase x
+            // Check if ThumbCells reached the full width
+            // if so reset x and increase y
+            // if y reaches the bottom , move to next page 
             
             if((((int)((x+cellWidth +margin)/self.frame.size.width))*self.frame.size.width)!=(x+cellWidth +margin) )
             {
