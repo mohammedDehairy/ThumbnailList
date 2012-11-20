@@ -249,14 +249,13 @@
     int y = 20;
     subviewLayed = YES;
     MyScrollView *scroll = (MyScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
-    NSArray *viewsToRemove = [scroll subviews];
     
     int numberOfCellsInPageBuffer = 0;
     int numberOfCellsInPage = 0;
-    for(ThumbnailCell *cell in viewsToRemove)
+    for(int i=0;i<numberOfCells;i++)
     {
-        if((cell.tag>=10000)&&(cell.tag<=(numberOfCells+10000)))
-        {
+        ThumbnailCell *cell = (ThumbnailCell*)[self viewWithTag:i+10000];
+      
             
             
             // Check if ThumbCells reached the bottom
@@ -300,7 +299,7 @@
             
             cell.originalRect = CGRectMake(x, y, cellHeight, cellHeight);
             
-        }
+        
     }
     
     //calculate no of pages in pager
@@ -427,7 +426,7 @@
     UIInterfaceOrientation orientation= [[UIDevice currentDevice] orientation];
     if(UIInterfaceOrientationIsLandscape(orientation))
     {
-        margin = 36;
+        margin = 32;
     }else
     {
         margin=minCellMargin;
@@ -613,7 +612,8 @@
                         
                         control.frame = otherCell.originalRect;
                         
-                        
+                        control.originalRect = control.frame;
+                        otherCell.originalRect = otherCell.frame;
                         
                         //swap tags
                         int controlTag = control.tag;
@@ -624,8 +624,7 @@
                         
                     } completion:^(BOOL finished){
                         otherCell.layer.borderColor = [UIColor grayColor].CGColor;
-                        control.originalRect = control.frame;
-                        otherCell.originalRect = otherCell.frame;
+                        
                         if([_DataSource respondsToSelector:@selector(thumbnailList:didSwapCellAtIndex:withCellAtIndex:)])
                         {
                             [_DataSource thumbnailList:self didSwapCellAtIndex:control.tag-10000 withCellAtIndex:otherCell.tag-10000];
