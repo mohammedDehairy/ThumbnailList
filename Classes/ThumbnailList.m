@@ -256,9 +256,10 @@
       
             
             
-            // Check if ThumbCells reached the bottom
-            // if reached the bottom reset y and increase x
-            
+        // Check if ThumbCells reached the full width
+        // if so reset x and increase y
+        // if y reaches the bottom , move to next page
+        
             if((((int)((x+cellWidth +margin)/self.frame.size.width))*self.frame.size.width)!=(x+cellWidth +margin) )
             {
                 numberOfCellsInPageBuffer++;
@@ -270,18 +271,21 @@
                 
             }else
             {
-                 numberOfCellsInPageBuffer++;
+                 
                 x+=cellWidth +margin;
                 if(cell.tag!=10000)
                 {
                     if((y+cellHeight+margin)<=self.frame.size.height-100)
                     {
-                       
+                        numberOfCellsInPageBuffer++;
                         y += cellHeight + margin;
                         x -= self.frame.size.width-margin;
                     }else
                     {
-                        numberOfCellsInPage = numberOfCellsInPageBuffer;
+                        if(numberOfCellsInPage==0)
+                        {
+                            numberOfCellsInPage = numberOfCellsInPageBuffer;
+                        }
                         numberOfCellsInPageBuffer = 0;
                         x+=  margin;
                         y = 20;
@@ -307,28 +311,30 @@
     //calculate ThumbListView width
     int width  = pageCount * self.frame.size.width;
     
+    //update content size
+    scroll.contentSize = CGSizeMake(width, self.frame.size.height);
+    
+    //update scroll offset to contain the first cell in page in the last orientation\
+    
+    //save content offset before orientation change
     LastContentOffset = scroll.contentOffset;
     
     int firstCellInPageIndex;
     int pageWidth;
-    if(UIInterfaceOrientationIsLandscape(orientaion))
-    {
-        pageWidth = 480;
-        firstCellInPageIndex = ((currentPage)*LastnumberOfCellsInPage);
-    }else
-    {
-        pageWidth = 320;
-        firstCellInPageIndex = ((currentPage)*LastnumberOfCellsInPage);
-    }
+    
+    
+    pageWidth = self.frame.size.width;
+    firstCellInPageIndex = ((currentPage)*LastnumberOfCellsInPage);
+    
     LastnumberOfCellsInPage = numberOfCellsInPage;
-    // Update Scroll View Content Offset
+    
     ThumbnailCell *firstCellInPage = (ThumbnailCell*)[scroll viewWithTag:firstCellInPageIndex+10000];
 
     
     int newContentOffset = (firstCellInPage.frame.origin.x/pageWidth);
     newContentOffset *= pageWidth;
     
-    scroll.contentSize = CGSizeMake(width, self.frame.size.height);
+    
     
     [scroll setContentOffset:CGPointMake(newContentOffset, scroll.contentOffset.y)];
     
@@ -443,49 +449,18 @@
             [v removeFromSuperview];
         }
     }
-    int numberOfCellsInPageBuffer = 0;
     int numberOfCellsInPage = 0;
     for(int i=0;i<numberOfCells;i++)
     {
         if([DataSource respondsToSelector:@selector(thumbnailList:cellForIndex:)])
         {
+            
             ThumbnailCell *cell = [DataSource thumbnailList:self cellForIndex:i];
             
 
-            // Check if ThumbCells reached the full width
-            // if so reset x and increase y
-            // if y reaches the bottom , move to next page 
+           
             
-            if((((int)((x+cellWidth +margin)/self.frame.size.width))*self.frame.size.width)!=(x+cellWidth +margin) )
-            {
-                numberOfCellsInPageBuffer++;
-                if(i!=0)
-                {
-                    x += cellWidth +margin;
-                    
-                }
-                
-            }else
-            {
-                numberOfCellsInPageBuffer++;
-                x+=cellWidth +margin;
-                if(i!=0)
-                {
-                    if((y+cellHeight+margin)<=self.frame.size.height-100)
-                    {
-                        
-                        y += cellHeight + margin;
-                        x -= self.frame.size.width-margin;
-                    }else
-                    {
-                        numberOfCellsInPage = numberOfCellsInPageBuffer;
-                        numberOfCellsInPageBuffer = 0;
-                        x+=  margin;
-                        y = 20;
-                    }
-                }
-                
-            }
+          
             
             
             //set cell size

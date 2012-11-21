@@ -71,8 +71,8 @@
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    ThumbnailList *list = (ThumbnailList*)[self.view viewWithTag:11];
-    [list orientationChanged:toInterfaceOrientation];
+   /* ThumbnailList *list = (ThumbnailList*)[self.view viewWithTag:11];
+    [list orientationChanged:toInterfaceOrientation];*/
     
 }
 - (void)didReceiveMemoryWarning
