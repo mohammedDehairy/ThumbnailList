@@ -31,7 +31,7 @@
         self.viewController = [[[ThumbnailListViewController alloc] initWithNibName:@"ThumbnailListViewController_iPad" bundle:nil] autorelease];
     }
     navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
-    self.window.rootViewController = navController;
+    self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
 }
