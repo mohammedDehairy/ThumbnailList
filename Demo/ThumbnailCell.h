@@ -11,6 +11,7 @@
 #import "ThumbnailCellDelegate.h"
 #define DELETE_BTN_TAG 15
 #define IMAGE_BTN_TAG 10
+#define TITLE_LABEL_TAG 101
 @interface ThumbnailCell : UIView<EGOImageButtonDelegate>
 {
     CGRect originalRect;
@@ -21,4 +22,5 @@
 
 -(void)EnterEditMode;
 -(void)ExitEditMode;
+-(void)setTitle:(NSString*)title;
 @end

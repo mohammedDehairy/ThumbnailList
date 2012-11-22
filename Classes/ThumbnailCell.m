@@ -37,9 +37,26 @@
         [CloseBtn setHidden:YES];
         CloseBtn.tag = DELETE_BTN_TAG;
         [self addSubview:CloseBtn];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, 80, 25)];
+        titleLabel.tag = TITLE_LABEL_TAG;
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont fontWithName:@"Copperplate" size:15];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:titleLabel];
        
     }
     return self;
+}
+-(void)setTitle:(NSString *)title
+{
+    [title retain];
+    [self getTitleLabel].text = title;
+    [title release];
+    title = nil;
+}
+-(UILabel*)getTitleLabel
+{
+    return  (UILabel*)[self viewWithTag:TITLE_LABEL_TAG];
 }
 -(void)ImageBtnTouched:(id)sender
 {
