@@ -58,6 +58,7 @@
     }
     NSString *img =[NSString stringWithFormat:@"%@%d.png",@"alwatan",index1];
     ThumbnailCell *cell = [[ThumbnailCell alloc] initWithFrame:CGRectMake(0, 0, 0, 0) withImage:img];
+    [cell setTitle:[NSString stringWithFormat:@"cell No %d",index]];
     return cell;
 }
 -(void)thumbnailList:(ThumbnailList *)list didSwapCellAtIndex:(int)sourceIndex withCellAtIndex:(int)destinationIndex
@@ -71,8 +72,6 @@
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-   /* ThumbnailList *list = (ThumbnailList*)[self.view viewWithTag:11];
-    [list orientationChanged:toInterfaceOrientation];*/
     
 }
 - (void)didReceiveMemoryWarning
