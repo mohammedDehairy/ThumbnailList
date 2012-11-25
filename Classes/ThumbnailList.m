@@ -441,13 +441,13 @@
     CGRect bufferFrame;
     CGRect LastCellFrame;
     MyScrollView *scroll = [self getScrollView];
-    for(int i=(deletedTag+1);i<numberOfCells+9999;i++)
+    for(int i=(deletedTag+1);i<numberOfCells+10000;i++)
     {
         ThumbnailCell *cell = (ThumbnailCell*)[scroll viewWithTag:i];
        
             bufferFrame = cell.frame;
             cell.frame = PreviousCellFrame;
-            cell.tag--;
+            cell.tag= cell.tag-1;
             cell.originalRect = PreviousCellFrame;
             
             
@@ -464,7 +464,10 @@
     {
         [DataSource thumbnailList:self didDeleteCellAtIndex:deletedTag];
     }
-    LastCellFrame = ((ThumbnailCell*)[self viewWithTag:numberOfCells+9999]).frame;
+    
+    
+    ThumbnailCell *lastCell = (ThumbnailCell*)[scroll viewWithTag:numberOfCells+9999];
+    LastCellFrame = lastCell.frame;
     [self AdjustScrollViewContentSizeToLastCellX:LastCellFrame.origin.x];
 }
 
