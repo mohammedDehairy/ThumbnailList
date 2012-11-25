@@ -34,7 +34,6 @@
     int LastnumberOfCellsInPage;
     BOOL draggingEnabled;
     BOOL editEnabled;
-    ThumbnailCell *DeletedCell;
     id<ThumbnailListDataSourceDelegate> DataSource;
 }
 @property(nonatomic)CGSize cellSize;
@@ -44,4 +43,6 @@
 -(void)setEnableEdit:(BOOL)value;
 -(BOOL)getEnableEdit;
 - (id)initWithFrame:(CGRect)frame withDataSource:(id<ThumbnailListDataSourceDelegate>) datasource;
+-(void)InsertCell:(ThumbnailCell*)Addedcell AtIndex:(int)index;
+-(void)DeleteCellAtIndex:(int)index animated:(BOOL) animated;
 @end

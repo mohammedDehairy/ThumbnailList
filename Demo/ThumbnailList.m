@@ -217,13 +217,7 @@
 
 -(void)ReloadData
 {
-    if([DataSource respondsToSelector:@selector(numberOfcellsForthumbanilList:)])
-    {
-        numberOfCells = [DataSource numberOfcellsForthumbanilList:self];
-    }else
-    {
-        numberOfCells = 0;
-    }
+   
     
     [self Load];
 }
@@ -252,7 +246,7 @@
     int numberOfCellsInPage = 0;
     for(int i=0;i<numberOfCells;i++)
     {
-        ThumbnailCell *cell = (ThumbnailCell*)[self viewWithTag:i+10000];
+        ThumbnailCell *cell = (ThumbnailCell*)[scroll viewWithTag:i+10000];
       
             
             
@@ -296,9 +290,12 @@
             cell.frame = CGRectMake(x, y, cellWidth, cellHeight);
             
             cell.originalRect = CGRectMake(x, y, cellWidth, cellHeight);
-            
+        cell.tag = i+10000;
         
     }
+    
+    [self AdjustScrollViewContentSizeToLastCellX:x];
+    
     
     //calculate no of pages in pager
     float perc = x/self.frame.size.width;
@@ -335,6 +332,51 @@
     LastContentOffset = scroll.contentOffset;
     
 }
+
+-(void)allignCell:(ThumbnailCell**) cell AfterLastx:(int) lastx lasty:(int) lasty forOrientation:(UIInterfaceOrientation) orientaion
+{
+    int margin;
+    if(UIInterfaceOrientationIsLandscape(orientaion))
+    {
+        margin = 32;
+    }else
+    {
+        margin=minCellMargin;
+    }
+    
+
+    
+    if((((int)((lastx+cellWidth +margin)/self.frame.size.width))*self.frame.size.width)!=(lastx+cellWidth +margin) )
+    {
+        if((*cell).tag!=10000)
+        {
+            lastx += cellWidth +margin;
+            
+        }
+        
+    }else
+    {
+        lastx+=cellWidth +margin;
+        if((*cell).tag!=10000)
+        {
+            if((lasty+cellHeight+margin)<=self.frame.size.height-100)
+            {
+                
+                lasty += cellHeight + margin;
+                lastx -= self.frame.size.width-margin;
+            }else
+            {
+                lastx+=  margin;
+                lasty = 20;
+            }
+        }
+        
+    }
+    CGRect frame = CGRectMake(lastx, lasty, (*cell).frame.size.width, (*cell).frame.size.height);
+    (*cell).frame = frame;
+    (*cell).originalRect = frame;
+}
+
 -(void)willMoveToSuperview:(UIView *)newSuperview
 {
     [super willMoveToSuperview:newSuperview];
@@ -344,8 +386,8 @@
 {
     [super didMoveToSuperview];
 
-        
-        
+    
+    
     
 }
 
@@ -376,46 +418,54 @@
 
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-   if(buttonIndex==1 && DeletedCell)
-   {
-       __block CGRect LastCellFrame = DeletedCell.frame;
-       int deletedTag = DeletedCell.tag;
-       [DeletedCell removeFromSuperview];
-       [DeletedCell release];
-       DeletedCell = nil;
-       [UIView beginAnimations:@"tilescleared" context:nil];
-       [UIView setAnimationDelegate: self];
-       [UIView setAnimationDuration:0.5];
-       for(ThumbnailCell *cell in [self getScrollView].subviews)
-       {
-           if(cell.tag>deletedTag&&cell.tag<numberOfCells+10000)
-           {
-               
-               CGRect bufferFrame = cell.frame;
-               cell.frame = LastCellFrame;
-               cell.originalRect = LastCellFrame;
-               LastCellFrame = bufferFrame;
-               
-           }
-           
-       }
-       [UIView commitAnimations];
-       if([DataSource respondsToSelector:@selector(thumbnailList:didDeleteCellAtIndex:)] )
-       {
-           [DataSource thumbnailList:self didDeleteCellAtIndex:deletedTag];
-       }
 
-   }
-}
--(void)DeleteBtnTouchedForCell:(id)cell
+-(void)DeleteBtnTouchedForCell:(ThumbnailCell*)cell
 {
-    UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"" message:@"Are you sure you want to unsubscribe this newspaper " delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"ok", nil];
-    [deleteAlert show];
-    
-    
-    DeletedCell = cell;
+    [self DeleteCellAtIndex:cell.tag-10000 animated:YES];
+}
+-(void)DeleteCellAtIndex:(int)index animated:(BOOL) animated
+{
+    ThumbnailCell *DeletedCell = (ThumbnailCell*)[[self getScrollView] viewWithTag:index+10000];
+    __block CGRect PreviousCellFrame = DeletedCell.frame;
+    int deletedTag = DeletedCell.tag;
+    [DeletedCell removeFromSuperview];
+    [DeletedCell release];
+    DeletedCell = nil;
+    if(animated==YES)
+    {
+        [UIView beginAnimations:@"tilescleared" context:nil];
+        [UIView setAnimationDelegate: self];
+        [UIView setAnimationDuration:0.5];
+        
+    }
+    CGRect bufferFrame;
+    CGRect LastCellFrame;
+    MyScrollView *scroll = [self getScrollView];
+    for(int i=(deletedTag+1);i<numberOfCells+9999;i++)
+    {
+        ThumbnailCell *cell = (ThumbnailCell*)[scroll viewWithTag:i];
+       
+            bufferFrame = cell.frame;
+            cell.frame = PreviousCellFrame;
+            cell.tag--;
+            cell.originalRect = PreviousCellFrame;
+            
+            
+            LastCellFrame = cell.frame;
+            PreviousCellFrame = bufferFrame;
+        
+    }
+    numberOfCells--;
+    if(animated==YES)
+    {
+        [UIView commitAnimations];
+    }
+    if([DataSource respondsToSelector:@selector(thumbnailList:didDeleteCellAtIndex:)] )
+    {
+        [DataSource thumbnailList:self didDeleteCellAtIndex:deletedTag];
+    }
+    LastCellFrame = ((ThumbnailCell*)[self viewWithTag:numberOfCells+9999]).frame;
+    [self AdjustScrollViewContentSizeToLastCellX:LastCellFrame.origin.x];
 }
 
 -(void)Load
@@ -436,6 +486,7 @@
     int y = 20;
     subviewLayed = YES;
     MyScrollView *scroll = (MyScrollView*)[self viewWithTag:SCROLL_VIEW_TAG];
+     CGPoint LastOffset = scroll.contentOffset;
     NSArray *viewsToRemove = [scroll subviews];
     for (UIView *v in viewsToRemove) {
         if((v.tag>=10000)&&(v.tag<=(numberOfCells+10000)))
@@ -443,7 +494,13 @@
             [v removeFromSuperview];
         }
     }
-    int numberOfCellsInPageBuffer = 0;
+    if([DataSource respondsToSelector:@selector(numberOfcellsForthumbanilList:)])
+    {
+        numberOfCells = [DataSource numberOfcellsForthumbanilList:self];
+    }else
+    {
+        numberOfCells = 0;
+    }
     int numberOfCellsInPage = 0;
     for(int i=0;i<numberOfCells;i++)
     {
@@ -452,56 +509,15 @@
             ThumbnailCell *cell = [DataSource thumbnailList:self cellForIndex:i];
             
 
-            // Check if ThumbCells reached the full width
-            // if so reset x and increase y
-            // if y reaches the bottom , move to next page 
-            
-            if((((int)((x+cellWidth +margin)/self.frame.size.width))*self.frame.size.width)!=(x+cellWidth +margin) )
-            {
-                numberOfCellsInPageBuffer++;
-                if(i!=0)
-                {
-                    x += cellWidth +margin;
-                    
-                }
-                
-            }else
-            {
-                numberOfCellsInPageBuffer++;
-                x+=cellWidth +margin;
-                if(i!=0)
-                {
-                    if((y+cellHeight+margin)<=self.frame.size.height-100)
-                    {
-                        
-                        y += cellHeight + margin;
-                        x -= self.frame.size.width-margin;
-                    }else
-                    {
-                        numberOfCellsInPage = numberOfCellsInPageBuffer;
-                        numberOfCellsInPageBuffer = 0;
-                        x+=  margin;
-                        y = 20;
-                    }
-                }
-                
-            }
             
             
             //set cell size
             cell.frame = CGRectMake(x, y, cellWidth, cellHeight);
             cell.originalRect = CGRectMake(x, y, cellWidth, cellHeight);
-            cell.tag = i+10000;
-            cell.ThumbnailCellDelegate = self;
             
-            //add drag and drop events
-            UILongPressGestureRecognizer *longTapGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(CellMoved:)];
-            [longTapGesture setNumberOfTouchesRequired:1];
+            //add cell To List
 
-            [cell addGestureRecognizer:longTapGesture];
-            
-            //add cell to scrollView
-            [scroll addSubview:cell];
+            [self AddCellToList:cell withTag:i+10000];
             [cell release];
             cell = nil;
             
@@ -519,17 +535,27 @@
     
     
     
-    
+   
     
     
     // set scrollView content size
     scroll.contentSize = CGSizeMake(width, self.frame.size.height);
     
-    
-    
+    [self orientationChanged:[[UIDevice currentDevice] orientation]];
+    [self ReserveScrollContentOffset:LastOffset];
     
 }
-
+-(void)ReserveScrollContentOffset:(CGPoint)LastOffset
+{
+    UIScrollView *scroll = [self getScrollView];
+    if(LastOffset.x>=scroll.contentSize.width)
+    {
+        [scroll setContentOffset:CGPointMake(scroll.contentSize.width-self.frame.size.width, 0) ];
+    }else
+    {
+        [scroll setContentOffset:LastOffset];
+    }
+}
 - (IBAction) CellMoved:(UIGestureRecognizer*) sender
 {
     if(_LongPressToEditEnabled==YES || editEnabled==YES)
@@ -685,6 +711,88 @@
     UIButton *LeftBtn = (UIButton*)[self viewWithTag:LEFT_NAV_TAG];
     [LeftBtn setImage:image forState:UIControlStateNormal];
 }
+-(void)AddCellToList:(ThumbnailCell*)cell withTag:(int)tag
+{
+    [cell retain];
+    cell.ThumbnailCellDelegate = self;
+    cell.tag = tag;
+    UILongPressGestureRecognizer *longTapGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(CellMoved:)];
+    [longTapGesture setNumberOfTouchesRequired:1];
+    
+    [cell addGestureRecognizer:longTapGesture];
+    [[self getScrollView] addSubview:cell];
+    [cell release];
+    cell = nil;
+}
+-(void)InsertCell:(ThumbnailCell*)Addedcell AtIndex:(int)index
+{
+    UIScrollView *scroll = [self getScrollView];
+    
+    ThumbnailCell *cellAtTheIndex = (ThumbnailCell*)[scroll viewWithTag:index+10000];
+    
+    Addedcell.frame = cellAtTheIndex.frame;
+    Addedcell.originalRect = cellAtTheIndex.frame;
+    
+    [self AddCellToList:Addedcell withTag:cellAtTheIndex.tag];
+        
+    
+    ThumbnailCell *cellBefore;
+    if(index>=numberOfCells-1 && cellAtTheIndex==nil)
+    {
+        cellBefore = Addedcell;
+        ThumbnailCell *CurrentLastCell = (ThumbnailCell*)[scroll viewWithTag:numberOfCells-1+10000];
+        if(CurrentLastCell==nil)
+        {
+            cellBefore.frame = CGRectMake(minCellMargin, 20, cellWidth, cellHeight);
+            cellBefore.originalRect = CGRectMake(minCellMargin, 20, cellWidth, cellHeight);
+            cellBefore.tag = 9999;
+        }else{
+            cellBefore.frame = CurrentLastCell.frame;
+            cellBefore.originalRect = CurrentLastCell.frame;
+            cellBefore.tag = CurrentLastCell.tag;
+        }
+        
+    }else
+    {
+        cellBefore = cellAtTheIndex;
+        ThumbnailCell *Currentcell;
+        for(int i=(index+10001);i<numberOfCells+10000;i++)
+        {
+            Currentcell  = (ThumbnailCell*)[scroll viewWithTag:i];
+            
+            CGRect bufferFrame = Currentcell.frame;
+            
+            cellBefore.frame = bufferFrame;
+            cellBefore.originalRect = bufferFrame;
+            cellBefore.tag++;
+            
+            cellBefore = Currentcell;
+        }
+    }
+    
+   
+    
+    numberOfCells++;
+    
+    cellBefore.tag++;
+    
+    [self allignCell:&cellBefore AfterLastx:cellBefore.frame.origin.x lasty:cellBefore.frame.origin.y forOrientation:[[UIDevice currentDevice] orientation]];
+    int lastx = cellBefore.frame.origin.x;
+    
+    
+    [self AdjustScrollViewContentSizeToLastCellX:lastx];
 
+}
+-(void)AdjustScrollViewContentSizeToLastCellX:(int) lastX
+{
+    UIScrollView *scroll = [self getScrollView];
+    if(lastX>scroll.contentSize.width)
+    {
+        scroll.contentSize = CGSizeMake(scroll.contentSize.width+self.frame.size.width, scroll.contentSize.height);
+    }else if(lastX<(scroll.contentSize.width-self.frame.size.width))
+    {
+        scroll.contentSize = CGSizeMake(scroll.contentSize.width-self.frame.size.width, scroll.contentSize.height);
+    }
+}
 
 @end

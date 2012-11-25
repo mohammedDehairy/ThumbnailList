@@ -12,6 +12,7 @@
 @protocol ThumbnailListDataSourceDelegate <NSObject>
 -(ThumbnailCell*)thumbnailList:(ThumbnailList*) list cellForIndex:(int)index;
 -(int)numberOfcellsForthumbanilList:(ThumbnailList *) list ;
+@optional
 -(void)thumbnailList:(ThumbnailList *) list didSelectThumbAtIndex:(int)index;
 -(void)thumbnailList:(ThumbnailList*) list didSwapCellAtIndex:(int) sourceIndex withCellAtIndex:(int) destinationIndex;
 -(void)thumbnailList:(ThumbnailList*) list didDeleteCellAtIndex:(int) index;
