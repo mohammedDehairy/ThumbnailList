@@ -90,64 +90,8 @@
         [self setEnableEdit:NO];
     }
 }
--(void)navigateRight:(id)sender
-{
-    if((currentPage+1)<pageCount)
-    {
-        MyScrollView *scrollView = (MyScrollView*)[self viewWithTag:1];
-        CGRect frame;
-        frame.origin.x = scrollView.frame.size.width * (++currentPage);
-        frame.origin.y = 0;
-        frame.size = scrollView.frame.size;
-        [scrollView scrollRectToVisible:frame animated:YES];
-        
-    }
-}
--(void)navigateLeft:(id)sender
-{
-    if(currentPage>0)
-    {
-        MyScrollView *scrollView = (MyScrollView*)[self viewWithTag:1];
-        CGRect frame;
-        
-        frame.origin.x = scrollView.frame.size.width * (--currentPage);
-        frame.origin.y = 0;
-        frame.size = scrollView.frame.size;
-        [scrollView scrollRectToVisible:frame animated:YES];
-        
-    }
-}
--(id)init
-{
-    self = [super init];
-    if (self) {
-        // Initialization code
-        MyScrollView *scroll = [[MyScrollView alloc] initWithFrame:CGRectMake(6, 0, self.frame.size.width, self.frame.size.height)];
-        PagesLoaded = [[[NSMutableArray alloc] init] retain];
-        scroll.tag = SCROLL_VIEW_TAG;
-        scroll.pagingEnabled = YES;
-        scroll.scrollEnabled = YES;
-        scroll.contentSize = self.frame.size;
-        [scroll setShowsHorizontalScrollIndicator:NO];
-        [scroll setShowsVerticalScrollIndicator:NO];
-        scroll.autoresizingMask =UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
-        scroll.delegate = self;
-        scroll.canCancelContentTouches = NO;
-        [self addSubview:scroll];
-        _cellSize = CGSizeMake(70, 50);
-        minPageNo = 1;
-        minCellMargin = 20;
-        cellHeight = 80;
-        cellWidth = 80;
-        self.clipsToBounds = YES;
-        queue = [[NSOperationQueue alloc] init];
-        
-        draggingEnabled = YES;
-        editEnabled = NO;
-        subviewLayed = NO;
-    }
-    return self;
-}
+
+
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

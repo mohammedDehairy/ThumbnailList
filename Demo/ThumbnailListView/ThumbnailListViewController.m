@@ -23,6 +23,7 @@
     [self.view addSubview:list];
 	
 }
+
 -(void)Edit
 {
     UIBarButtonItem *btn = self.navigationItem.rightBarButtonItem;
@@ -68,6 +69,10 @@
 -(void)thumbnailList:(ThumbnailList *)list didDeleteCellAtIndex:(int)index
 {
     //cell deleted
+}
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
 }
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
