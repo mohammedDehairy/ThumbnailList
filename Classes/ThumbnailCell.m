@@ -16,7 +16,7 @@
 @synthesize ThumbnailCellDelegate;
 - (id)initWithFrame:(CGRect)frame withImage:(NSString*)img
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame:CGRectMake(0, 0, 80, 105)];
     if (self) {
         // Initialization code
         
@@ -25,6 +25,7 @@
         [imageBtn setFrame:CGRectMake(0, 0, 80, 80)] ;
         imageBtn.tag = IMAGE_BTN_TAG;
         [imageBtn addTarget:self action:@selector(ImageBtnTouched:) forControlEvents:UIControlEventTouchUpInside];
+        imageBtn.contentMode = UIViewContentModeScaleToFill;
         [self addSubview:imageBtn];
 
         imageBtn.layer.borderColor = [UIColor grayColor].CGColor;

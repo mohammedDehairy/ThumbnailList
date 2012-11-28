@@ -90,8 +90,64 @@
         [self setEnableEdit:NO];
     }
 }
-
-
+-(void)navigateRight:(id)sender
+{
+    if((currentPage+1)<pageCount)
+    {
+        MyScrollView *scrollView = (MyScrollView*)[self viewWithTag:1];
+        CGRect frame;
+        frame.origin.x = scrollView.frame.size.width * (++currentPage);
+        frame.origin.y = 0;
+        frame.size = scrollView.frame.size;
+        [scrollView scrollRectToVisible:frame animated:YES];
+        
+    }
+}
+-(void)navigateLeft:(id)sender
+{
+    if(currentPage>0)
+    {
+        MyScrollView *scrollView = (MyScrollView*)[self viewWithTag:1];
+        CGRect frame;
+        
+        frame.origin.x = scrollView.frame.size.width * (--currentPage);
+        frame.origin.y = 0;
+        frame.size = scrollView.frame.size;
+        [scrollView scrollRectToVisible:frame animated:YES];
+        
+    }
+}
+-(id)init
+{
+    self = [super init];
+    if (self) {
+        // Initialization code
+        MyScrollView *scroll = [[MyScrollView alloc] initWithFrame:CGRectMake(6, 0, self.frame.size.width, self.frame.size.height)];
+        PagesLoaded = [[[NSMutableArray alloc] init] retain];
+        scroll.tag = SCROLL_VIEW_TAG;
+        scroll.pagingEnabled = YES;
+        scroll.scrollEnabled = YES;
+        scroll.contentSize = self.frame.size;
+        [scroll setShowsHorizontalScrollIndicator:NO];
+        [scroll setShowsVerticalScrollIndicator:NO];
+        scroll.autoresizingMask =UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleBottomMargin;
+        scroll.delegate = self;
+        scroll.canCancelContentTouches = NO;
+        [self addSubview:scroll];
+        _cellSize = CGSizeMake(70, 50);
+        minPageNo = 1;
+        minCellMargin = 20;
+        cellHeight = 80;
+        cellWidth = 80;
+        self.clipsToBounds = YES;
+        queue = [[NSOperationQueue alloc] init];
+        
+        draggingEnabled = YES;
+        editEnabled = NO;
+        subviewLayed = NO;
+    }
+    return self;
+}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -119,7 +175,7 @@
     CGPathCloseSubpath(visiblePath);
     
     // Fill this path
-    UIColor *aColor = [UIColor whiteColor];
+    UIColor *aColor = [UIColor colorWithRed:(223.0/255.0) green:(224.0/255.0) blue:(225.0/255.0) alpha:1.0f];
     [aColor setFill];
     CGContextAddPath(context, visiblePath);
     CGContextFillPath(context);
@@ -370,7 +426,7 @@
 -(void)DeleteCellAtIndex:(int)index animated:(BOOL) animated
 {
     ThumbnailCell *DeletedCell = (ThumbnailCell*)[[self getScrollView] viewWithTag:index+10000];
-    __block CGRect PreviousCellFrame = DeletedCell.frame;
+     CGRect PreviousCellFrame = DeletedCell.originalRect;
     int deletedTag = DeletedCell.tag;
     [DeletedCell removeFromSuperview];
     [DeletedCell release];
@@ -380,7 +436,6 @@
         [UIView beginAnimations:@"tilescleared" context:nil];
         [UIView setAnimationDelegate: self];
         [UIView setAnimationDuration:0.5];
-        
     }
     CGRect bufferFrame;
     CGRect LastCellFrame;
@@ -388,16 +443,14 @@
     for(int i=(deletedTag+1);i<numberOfCells+10000;i++)
     {
         ThumbnailCell *cell = (ThumbnailCell*)[scroll viewWithTag:i];
-       
-            bufferFrame = cell.frame;
+            bufferFrame = cell.originalRect;
             cell.frame = PreviousCellFrame;
-            cell.tag= cell.tag-1;
+            cell.tag--;
             cell.originalRect = PreviousCellFrame;
             
             
-            LastCellFrame = cell.frame;
+            LastCellFrame = cell.originalRect;
             PreviousCellFrame = bufferFrame;
-        
     }
     numberOfCells--;
     if(animated==YES)
@@ -406,12 +459,9 @@
     }
     if([DataSource respondsToSelector:@selector(thumbnailList:didDeleteCellAtIndex:)] )
     {
-        [DataSource thumbnailList:self didDeleteCellAtIndex:deletedTag];
+        [DataSource thumbnailList:self didDeleteCellAtIndex:deletedTag-10000];
     }
-    
-    
-    ThumbnailCell *lastCell = (ThumbnailCell*)[scroll viewWithTag:numberOfCells+9999];
-    LastCellFrame = lastCell.frame;
+    LastCellFrame = ((ThumbnailCell*)[self viewWithTag:numberOfCells+9999]).frame;
     [self AdjustScrollViewContentSizeToLastCellX:LastCellFrame.origin.x];
 }
 
@@ -581,14 +631,17 @@
                     // Collision!
                     intersectionDetected = YES;
                     [UIView animateWithDuration:0.2 animations:^(void){
-                        
+                        CGRect contronRect = control.frame;
                         //swap rectangles
                         otherCell.frame = control.originalRect;
                         
                         control.frame = otherCell.originalRect;
                         
-                        control.originalRect = control.frame;
-                        otherCell.originalRect = otherCell.frame;
+                        
+                        contronRect = control.originalRect;
+                        control.originalRect = otherCell.originalRect;
+                        
+                        otherCell.originalRect = contronRect;
                         
                         //swap tags
                         int controlTag = control.tag;
@@ -599,7 +652,7 @@
                         
                     } completion:^(BOOL finished){
                         otherCell.layer.borderColor = [UIColor grayColor].CGColor;
-                        
+
                         if([DataSource respondsToSelector:@selector(thumbnailList:didSwapCellAtIndex:withCellAtIndex:)])
                         {
                             [DataSource thumbnailList:self didSwapCellAtIndex:control.tag-10000 withCellAtIndex:otherCell.tag-10000];
@@ -677,8 +730,8 @@
     
     ThumbnailCell *cellAtTheIndex = (ThumbnailCell*)[scroll viewWithTag:index+10000];
     
-    Addedcell.frame = cellAtTheIndex.frame;
-    Addedcell.originalRect = cellAtTheIndex.frame;
+    Addedcell.frame = cellAtTheIndex.originalRect;
+    Addedcell.originalRect = cellAtTheIndex.originalRect;
     
     [self AddCellToList:Addedcell withTag:cellAtTheIndex.tag];
         
@@ -707,7 +760,7 @@
         {
             Currentcell  = (ThumbnailCell*)[scroll viewWithTag:i];
             
-            CGRect bufferFrame = Currentcell.frame;
+            CGRect bufferFrame = Currentcell.originalRect;
             
             cellBefore.frame = bufferFrame;
             cellBefore.originalRect = bufferFrame;
